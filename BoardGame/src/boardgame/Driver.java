@@ -21,9 +21,6 @@ public class Driver {
         int x = inputScanner.nextInt();
         int y = inputScanner.nextInt();
         System.out.println(b.guess(x,y));
-        /* String input = inputScanner.nextLine();
-        int inputInt = inputScanner.nextInt();
-        inputScanner.nextLine(); */
         
         inputScanner.close();
     }
