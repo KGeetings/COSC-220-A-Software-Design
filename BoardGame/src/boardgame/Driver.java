@@ -26,16 +26,12 @@ public class Driver {
         gameBoard.printBoard();
 
         // prompt the user for guesses and tell the user if that guess is a hot spot until the user says that they don't want to guess any more
-        System.out.println("Enter your guesses (x, y): ");
+        System.out.println("Enter your guesses (x, y) (starting at 0): ");
         while (inputScanner.hasNextInt()) {
             int x = inputScanner.nextInt();
             int y = inputScanner.nextInt();
-            if (gameBoard.guess(x, y) == "hot spot") {
-                System.out.println("hot spot");
-            } else {
-                System.out.println("cold spot");
-            }
-            System.out.println("Enter your guesses (x, y): ");
+            System.out.println(gameBoard.guess(x, y));
+            System.out.println("Enter your guesses (x, y) (starting at 0): ");
         }
         // close the Scanner object
         inputScanner.close();

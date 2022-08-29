@@ -22,16 +22,16 @@ public class Board {
         xDim = 10;
         yDim = 10;
         numHotSpots = 10;
-        gameBoard = new int[xDim][yDim];
-        for (int i = 0; i < xDim; i++) {
-            for (int j = 0; j < yDim; j++) {
+        gameBoard = new int[yDim][xDim];
+        for (int i = 0; i < yDim; i++) {
+            for (int j = 0; j < xDim; j++) {
                 gameBoard[i][j] = 0;
             }
         }
         for (int i = 0; i < numHotSpots; i++) {
-            int xHotSpot = (int) (Math.random() * xDim);
-            int yHotSpot = (int) (Math.random() * yDim);
-            gameBoard[xHotSpot][yHotSpot] = 1;
+            int x = (int) (Math.random() * xDim);
+            int y = (int) (Math.random() * yDim);
+            gameBoard[y][x] = 1;
         }
     }
 
@@ -40,17 +40,37 @@ public class Board {
         xDim = x;
         yDim = y;
         numHotSpots = hotSpots;
-        gameBoard = new int[xDim][yDim];
-        for (int i = 0; i < xDim; i++) {
-            for (int j = 0; j < yDim; j++) {
+        gameBoard = new int[yDim][xDim];
+        for (int i = 0; i < yDim; i++) {
+            for (int j = 0; j < xDim; j++) {
                 gameBoard[i][j] = 0;
             }
         }
-        for (int i = 0; i < numHotSpots; i++) {
-            int xHotSpot = (int) (Math.random() * xDim);
-            int yHotSpot = (int) (Math.random() * yDim);
-            gameBoard[xHotSpot][yHotSpot] = 1;
+        // check if the number of entered hot spots is greater than the number of spots on the board
+        if (hotSpots > x * y) {
+            System.out.println("The number of hot spots is greater than the number of spots on the board. Please restart the program and enter a smaller number of hot spots.");
+        } else {
+            // verify that our expected hot spots are actually hot spots
+            while (countHotSpots() < hotSpots) {
+                int xHotSpot = (int) (Math.random() * xDim);
+                int yHotSpot = (int) (Math.random() * yDim);
+                gameBoard[yHotSpot][xHotSpot] = 1;
+            }
+
         }
+    }
+
+    // count the number of hot spots on the board
+    public int countHotSpots() {
+        int numHotSpotsOnBoard = 0;
+        for (int i = 0; i < yDim; i++) {
+            for (int j = 0; j < xDim; j++) {
+                if (gameBoard[i][j] == 1) {
+                    numHotSpotsOnBoard++;
+                }
+            }
+        }
+        return numHotSpotsOnBoard;
     }
 
     // appropriate accessor (get) methods that simply return the value of the x dimension, y dimension and the number of hot spots
@@ -68,36 +88,34 @@ public class Board {
 
     // reset method that takes no parameters and resets the game board using the already defined dimensions and number of hot spots
     public void reset() {
-        gameBoard = new int[xDim][yDim];
-        for (int i = 0; i < xDim; i++) {
-            for (int j = 0; j < yDim; j++) {
+        for (int i = 0; i < yDim; i++) {
+            for (int j = 0; j < xDim; j++) {
                 gameBoard[i][j] = 0;
             }
         }
         for (int i = 0; i < numHotSpots; i++) {
             int xHotSpot = (int) (Math.random() * xDim);
             int yHotSpot = (int) (Math.random() * yDim);
-            gameBoard[xHotSpot][yHotSpot] = 1;
+            gameBoard[yHotSpot][xHotSpot] = 1;
         }
     }
 
     // a guess method that takes an x and y position on the board and returns a value that indicates whether or not that position is a hot spot
+    // if the position is out of range, we will return "out of range"
     public String guess(int x, int y) {
-        // correct numbers to make sense to user
         if (x < 0 || x >= xDim || y < 0 || y >= yDim) {
-            return "Invalid guess";
-        }
-        if (gameBoard[x][y] == 1) {
-            return "Position x: " + x + " y: " + y + " is a hot spot";
+            return "out of range";
+        } else if (gameBoard[y][x] == 1) {
+            return "hot spot";
         } else {
-            return "Position x: " + x + " y: " + y + " is NOT a hot spot";
+            return "cold spot";
         }
     }
 
     // print out the game board
     public void printBoard() {
-        for (int i = 0; i < xDim; i++) {
-            for (int j = 0; j < yDim; j++) {
+        for (int i = 0; i < yDim; i++) {
+            for (int j = 0; j < xDim; j++) {
                 System.out.print(gameBoard[i][j] + " ");
             }
             System.out.println();
