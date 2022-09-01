@@ -86,6 +86,11 @@ public class Board {
         return numHotSpots;
     }
 
+    // publicly share the game board with other classes
+    public int[][] getGameBoard() {
+        return gameBoard;
+    }
+
     // reset method that takes no parameters and resets the game board using the already defined dimensions and number of hot spots
     public void reset() {
         gameBoard = new int[xDim][yDim];
@@ -102,12 +107,18 @@ public class Board {
     }
 
     // a guess method that takes an x and y position on the board and returns a value that indicates whether or not that position is a hot spot
+    // if the position is out of range, we will return "out of range" -1
     public int guess(int x, int y) {
-        if (gameBoard[x][y] == 1) {
-            return 1;
+        if (x < 0 || x >= xDim || y < 0 || y >= yDim) {
+            return -1;
         } else {
-            return 0;
+            return gameBoard[x][y];
         }
+    }
+
+    // add a new guess to the guess list
+    public void addGuess(int x, int y) {
+        // 
     }
 
     // print out the game board

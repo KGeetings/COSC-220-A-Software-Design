@@ -34,22 +34,16 @@ public class Driver {
         Player player2 = new Player(name2);
         // have each player make 10 guesses (alternating the guesses)
         for (int i = 0; i < 10; i++) {
-            System.out.println("Enter the x and y coordinates of " + player1.getName() + "'s guess: ");
-            int x = inputScanner.nextInt();
-            int y = inputScanner.nextInt();
-            Guess guess = board.guess(x, y);
-            player1.addGuess(guess);
-            if (guess.isSuccessfulGuess()) {
-                player1.addHotSpotGuessed();
-            }
-            System.out.println("Enter the x and y coordinates of " + player2.getName() + "'s guess: ");
-            x = inputScanner.nextInt();
-            y = inputScanner.nextInt();
-            guess = board.guess(x, y);
-            player2.addGuess(guess);
-            if (guess.isSuccessfulGuess()) {
-                player2.addHotSpotGuessed();
-            }
+            System.out.println("Enter the guess for player 1: ");
+            int x1 = inputScanner.nextInt();
+            int y1 = inputScanner.nextInt();
+            
+
+            System.out.println("Enter the guess for player 2: ");
+            int x2 = inputScanner.nextInt();
+            int y2 = inputScanner.nextInt();
+            
+            
         }
         // print out how many hot spots each guessed correctly and say who won (guessed the most hot spots)
         System.out.println(player1.getName() + " guessed " + player1.getNumHotSpotsGuessed() + " hot spots correctly.");

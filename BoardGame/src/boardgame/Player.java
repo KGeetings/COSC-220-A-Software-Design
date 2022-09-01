@@ -1,9 +1,11 @@
 package boardgame;
 
+import java.util.ArrayList;
+
 public class Player {
     /* Add a Player class that will keep information about a single player. 
     The class should have instance variables for the name of the player, 
-    the number of hotspots they guessed correctly and a list of the guesses they have made (you can use an array, or Java’s ArrayList or LinkedList classes). 
+    the number of hotspots they guessed correctly and a list of the guesses they have made (use Java’s ArrayList). 
     The class should have a single constructor method to initialize the instance variables. Only the name needs to passed as a parameter. 
     Initialize the number of hot spots guessed and the list of guesses made to an appropriate value. 
     It should have accessor methods to get the players name and the number of hot spots guessed. 
@@ -12,13 +14,13 @@ public class Player {
     // instance variables
     private String name;
     private int numHotSpotsGuessed;
-    private Guess[] guesses;
+    private ArrayList<Guess> guesses;
 
     // constructor
     public Player(String name) {
         this.name = name;
         numHotSpotsGuessed = 0;
-        guesses = new Guess[0];
+        guesses = new ArrayList<Guess>();
     }
 
     // accessor methods
@@ -36,11 +38,6 @@ public class Player {
     }
 
     public void addGuess(Guess guess) {
-        Guess[] temp = new Guess[guesses.length + 1];
-        for (int i = 0; i < guesses.length; i++) {
-            temp[i] = guesses[i];
-        }
-        temp[temp.length - 1] = guess;
-        guesses = temp;
+        guesses.add(guess);
     }
 }
