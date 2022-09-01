@@ -126,7 +126,7 @@ public class Board {
         if (x < 0 || x >= xDim || y < 0 || y >= yDim) {
             return -1;
         } else {
-            int distance = 0;
+            int distance = -1;
             int minDistance = xDim + yDim;
             for (int i = 0; i < xDim; i++) {
                 for (int j = 0; j < yDim; j++) {
@@ -135,13 +135,18 @@ public class Board {
                             distance = Math.abs(y - j);
                         } else if (j == y) {
                             distance = Math.abs(i - x);
-                        } else {
-                            distance = Math.abs(i - x) + Math.abs(j - y);
+                        }
+                        if (distance < minDistance && distance != -1) {
+                            minDistance = distance;
                         }
                     }
                 }
             }
-            return distance;
+            if (minDistance == xDim + yDim) {
+                return -1;
+            } else {
+                return minDistance;
+            }
         }
     }
 

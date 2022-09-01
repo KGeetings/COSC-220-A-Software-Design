@@ -58,7 +58,7 @@ public class Driver {
                 player2.addHotSpotGuessed();
             }else {
                 System.out.println("That guess is not a hot spot.");
-                System.out.println("You were " + board.getDistanceFromHotSpot(x1, y1) + " away from the hot spot.");
+                System.out.println("You were " + board.getDistanceFromHotSpot(x2, y2) + " away from the hot spot.");
             }
         }
         // print out how many hot spots each guessed correctly and say who won (guessed the most hot spots)
