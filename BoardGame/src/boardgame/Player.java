@@ -37,7 +37,8 @@ public class Player {
         numHotSpotsGuessed++;
     }
 
-    public void addGuess(Guess guess) {
+    public void addGuessList(Guess guess) {
         guesses.add(guess);
     }
+
 }

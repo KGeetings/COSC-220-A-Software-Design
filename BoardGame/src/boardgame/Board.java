@@ -106,19 +106,35 @@ public class Board {
         }
     }
 
-    // a guess method that takes an x and y position on the board and returns a value that indicates whether or not that position is a hot spot
-    // if the position is out of range, we will return "out of range" -1
-    public int guess(int x, int y) {
+    // an isHotSpot method that takes an x and y position as parameters and returns true if the position is a hot spot and false otherwise
+    public boolean isHotSpot(int x, int y) {
+        // check if the x and y position is within the bounds of the board
         if (x < 0 || x >= xDim || y < 0 || y >= yDim) {
-            return -1;
+            return false;
+        }
+        if (gameBoard[x][y] == 1) {
+            return true;
         } else {
-            return gameBoard[x][y];
+            return false;
         }
     }
 
-    // add a new guess to the guess list
-    public void addGuess(int x, int y) {
-        // 
+    // get distance from hotspot method that takes an x and y position on the board and returns the distance from the closest hot spot
+    // if the position is out of range, we will return "out of range" -1
+    public int getDistanceFromHotSpot(int x, int y) {
+        if (x < 0 || x >= xDim || y < 0 || y >= yDim) {
+            return -1;
+        } else {
+            int distance = 0;
+            for (int i = 0; i < xDim; i++) {
+                for (int j = 0; j < yDim; j++) {
+                    if (gameBoard[i][j] == 1) {
+                        distance = Math.abs(x - i) + Math.abs(y - j);
+                    }
+                }
+            }
+            return distance;
+        }
     }
 
     // print out the game board
@@ -130,5 +146,7 @@ public class Board {
             System.out.println();
         }
     }
+
+
 
 }
