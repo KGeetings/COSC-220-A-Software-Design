@@ -119,17 +119,25 @@ public class Board {
         }
     }
 
-    // get distance from hotspot method that takes an x and y position on the board and returns the distance from the closest hot spot
+    // find the minimum shortest (non-diagonal) path from the guess to the nearest hot spot.
+    // only scan the positions that are left/right/up/down from the guess
     // if the position is out of range, we will return "out of range" -1
     public int getDistanceFromHotSpot(int x, int y) {
         if (x < 0 || x >= xDim || y < 0 || y >= yDim) {
             return -1;
         } else {
             int distance = 0;
+            int minDistance = xDim + yDim;
             for (int i = 0; i < xDim; i++) {
                 for (int j = 0; j < yDim; j++) {
                     if (gameBoard[i][j] == 1) {
-                        distance = Math.abs(x - i) + Math.abs(y - j);
+                        if (i == x) {
+                            distance = Math.abs(y - j);
+                        } else if (j == y) {
+                            distance = Math.abs(i - x);
+                        } else {
+                            distance = Math.abs(i - x) + Math.abs(j - y);
+                        }
                     }
                 }
             }
