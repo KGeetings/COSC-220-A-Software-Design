@@ -1,6 +1,6 @@
 package boardgame;
 
-import java.util.Scanner;
+//import java.util.Scanner;
 
 /* The driver class will have a main method that will be used to create a game board and accept some guesses from the user. 
 The main method will use the Scanner class to get input from the user. 
@@ -14,7 +14,7 @@ After each player has made 10 guesses print out how many hot spots each guessed 
 
 public class Driver {
     
-    public static void main(String[] args) {
+    /* public static void main(String[] args) {
         // get input from the user, using the Scanner class
         Scanner inputScanner = new Scanner(System.in);
         // prompt the user for the dimensions of the board and the number of hot spots
@@ -73,6 +73,14 @@ public class Driver {
         }
         // close the Scanner object
         inputScanner.close();
-    }
+    } */
     
+    public static void main(String[] args) {
+        // initialize and setVisible the MainWindow GUI
+        MainWindow mainWindow = new MainWindow();
+        mainWindow.setVisible(true);
+        // initialize and setVisible the initializeBoard jDialog GUI
+        initializeBoard initializeBoard = new initializeBoard(mainWindow, true);
+        initializeBoard.setVisible(true);
+    }
 }
