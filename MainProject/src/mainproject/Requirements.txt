@@ -1,0 +1,53 @@
+Messaging System Project Description
+
+A company wants to develop a messaging system similar to either twitter or instagram 
+to allow users of the system to send text messages or images which other users of the system who are followers of that user can read or see. 
+The company is willing to consider different approaches to this project so you, the developer, can decide if the system will send only text messages, only images or both.  
+The application will be a client/server system.
+A client must first register with a central server and establish a screen name and a password in order to send and receive messages or images.
+Prior to registering a person may only access an About dialog box which describes the capabilities of the system. 
+Once a user has been registered they are required to log in with the central server before completing any tasks. 
+Once they are logged in the central server will need to keep track of the IP address where that user is logged in.
+The user is also required to log out when they are done.
+
+
+User Capabilities:  Once logged in, a user should be able to complete these tasks:
+•	Retrieve and read through messages and/or images that have been sent by user's they are following since they last logged in to the system (i.e. messages/images that are waiting for them).
+•	Retrieve and read messages and/or images that have been sent by someone the user is following while they have been logged in.
+•	Send a message/image that a user's followers will be able to read/see when they log in or while they are logged in.
+•	Send a private message/image to another user who is currently logged in.  The system will need to be able to check to see if that other user is currently logged in.
+•	Search through all messages/images that have been sent by any user to see a list of messages/images with a certain hashtag (see message description below).  This search should NOT include private messages/images, but would include messages/images posted by someone the user currently isn't following.
+•	Follow another user that they aren't currently following.
+•	Unfollow another user that they are currently following.
+•	A user should be able to scan and read all messages/images that they have sent while logged on.  Once they have logged off they do not need to see their messages unless they come up in a search
+•	A user should be able to see if people following that user are logged on
+
+Message Structure: 
+•	Public Text Messages: Public text messages should consist of a body, a date sent, a time sent, the screen name of the sender, and one hashtag 
+    (only one is required, multiple may be implemented if desired).
+    The hashtag may be incorporated in the body of the message if desired or kept separate.
+•	Public Images:  Public images will have a similar format as text messages, but the body will be an image instead of text.
+•	Private Messages: Private messages will not have a hashtag. 
+
+The central server: The central server maintains a list of users of the system and knows which users are currently logged in.
+    For each individual user, the system will need to keep a screen name and password as well as the list of users who follow that user. 
+    The central server also stores the set of public messages/images that have been sent so that they can be searched.
+    Private messages sent between users are not saved on the server.
+
+The administrator:  The system should provide for an administrator account.  This account must be allowed to change user's passwords and to delete messages posted by any user.
+    They can also check some stats such as the number of registered users and the number of messages sent each day.
+    The administrator is not a regular user and can only perform administrative tasks.
+
+System Requirements. 
+•	Public messages (tweets) are first sent to the central server and saved on that central server.  
+        The central server then sends tweets to user's who are following the person who sent the message or saves them for that user to read when they log in.
+•	Private messages should be sent directly between the users. They do NOT pass through the central server first. 
+•	In order to send a private message the receiver of the message must be a follower of the sender (Both the sender and receiver have to be following each other).
+•	If a follower is logged in while someone they are following sends a message, they should be able to receive that message immediately 
+        (they should not have to log off and then log back on to receive the message).
+•	A user may only be logged in once - multiple log ons are not allowed (This is to your benefit - you may request to take on this challenge if you wish).
+•	Only one hashtag for a message is required.  Implementing multiple hashtags would be a nice feature to add.
+•	While not required, it is a nice feature for the server to automatically notify logged in users when one of their followers logs in or logs out.
+        If this feature is not implemented, the user must have a way of checking to see if a follower is logged in or not.
+•	While not required, another nice feature would be the saving of user's messages when the server is shut down so this information 
+        could be recovered when the server starts back up again.
