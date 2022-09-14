@@ -28,10 +28,25 @@ public class GameGUI extends JFrame {
     JPanel rowPnl;
     JPanel colPnl;
     
+    private PlayerList thePlayers;
+    private Player currentPlayer;
+    
     public GameGUI() {
-        NumPlayerDlg playerDlg = new NumPlayerDlg(this, true);
+        thePlayers = new PlayerList();
+        NumPlayerDlg playerDlg = new NumPlayerDlg(this, true, thePlayers);
         playerDlg.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         playerDlg.setVisible(true);
+        //Need to get the player names and create the player list
+        int np = thePlayers.getMaxPlayers();
+        for (int i = 0; i < np; i++) {
+            String name = JOptionPane.showInputDialog(this,"Enter next player's name");
+            Player player = new Player(name);
+            thePlayers.addPlayer(player);
+        }
+        currentPlayer = thePlayers.getNextPlayer();
+        JOptionPane.showMessageDialog(this, currentPlayer.getName() + " it is your turn");
+        JOptionPane.showMessageDialog(this, "You are the first player so click start round");
+        
         setLayout(new BorderLayout());
         titleLbl = new JLabel("My Exciting Guessing Game!");
         //titleLbl.setAlignmentX(JLabel.CENTER_ALIGNMENT);
@@ -54,7 +69,6 @@ public class GameGUI extends JFrame {
         rowPnl.add(rowFld);
         //infoPnl.add(rowPnl);
         
-        //Code added for the assignment
         colPnl = new JPanel();
         colPnl.setLayout(new GridLayout(1,2));
         colLbl = new JLabel("row:");
@@ -65,7 +79,9 @@ public class GameGUI extends JFrame {
         startRndBtn = new JButton("Start Round");
         currentPlayerLbl = new JLabel("Current Player");
         seeGuessBtn = new JButton("See Guesses");
+        seeGuessBtn.setEnabled(false);
         makeGuessBtn = new JButton("Make Guess");
+        makeGuessBtn.setEnabled(false);
         
         infoPnl.add(startRndBtn);
         infoPnl.add(currentPlayerLbl);
