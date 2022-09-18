@@ -4,6 +4,9 @@
 package guessinggame;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 
 /**
@@ -30,9 +33,12 @@ public class GameGUI extends JFrame {
     
     private PlayerList thePlayers;
     private Player currentPlayer;
+    private GameBoard board;
     
     public GameGUI() {
         thePlayers = new PlayerList();
+        board = new GameBoard();
+        System.out.println(board);
         NumPlayerDlg playerDlg = new NumPlayerDlg(this, true, thePlayers);
         playerDlg.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         playerDlg.setVisible(true);
@@ -71,17 +77,20 @@ public class GameGUI extends JFrame {
         
         colPnl = new JPanel();
         colPnl.setLayout(new GridLayout(1,2));
-        colLbl = new JLabel("row:");
+        colLbl = new JLabel("col:");
         colFld = new JTextField(5);
         colPnl.add(colLbl);
         colPnl.add(colFld);
         
         startRndBtn = new JButton("Start Round");
-        currentPlayerLbl = new JLabel("Current Player");
+        startRndBtn.addActionListener(new StartHandler());
+        currentPlayerLbl = new JLabel(currentPlayer.getName());
         seeGuessBtn = new JButton("See Guesses");
         seeGuessBtn.setEnabled(false);
+        seeGuessBtn.addActionListener(new SeeGuessHandler());
         makeGuessBtn = new JButton("Make Guess");
         makeGuessBtn.setEnabled(false);
+        makeGuessBtn.addActionListener(new GuessHandler());
         
         infoPnl.add(startRndBtn);
         infoPnl.add(currentPlayerLbl);
@@ -104,5 +113,68 @@ public class GameGUI extends JFrame {
         
         add(gridPnl, BorderLayout.CENTER);
         
+    }
+    
+    private class StartHandler implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            makeGuessBtn.setEnabled(true);
+            seeGuessBtn.setEnabled(true);
+            startRndBtn.setEnabled(false);
+        }
+    }
+    
+    private class GuessHandler implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            int row = Integer.parseInt(rowFld.getText());
+            int col = Integer.parseInt(colFld.getText());
+            boolean result = board.testGuess(row, col);
+            if (result) {
+                board.removeHot(row,col);
+                gridLabels[row][col].setText("1");
+                currentPlayer.addGuess(row, col, result, 0);
+                currentPlayer.incrementHot();
+                resultLbl.setText("Congratulations!  You found a hot spot!");
+            }
+            else {
+                int distanceToHot = board.findNearest(row, col);
+                currentPlayer.addGuess(row, col, result, distanceToHot);
+                resultLbl.setText("Sorry, try again you were " + distanceToHot + "spaces from a hot spot");
+            }
+            
+            //Have all the hotspots been found?
+            if (board.allFound()) {
+                //code for determine the winner use case goes here
+            }
+            else {
+                if (thePlayers.isLastPlayer()){
+                    startRndBtn.setEnabled(true);
+                    makeGuessBtn.setEnabled(false);
+                    seeGuessBtn.setEnabled(false);
+                    //code for list current status goes here
+                }
+                
+                currentPlayer = thePlayers.getNextPlayer();
+                currentPlayerLbl.setText(currentPlayer.getName());
+                JOptionPane.showMessageDialog(GameGUI.this, currentPlayer.getName() + " it is your turn");
+                if (thePlayers.isFirstPlayer()) {
+                    JOptionPane.showMessageDialog(GameGUI.this, "Click Start Round to begin the round");
+                }
+                
+            }
+            
+        }
+    }
+    
+    private class SeeGuessHandler implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            ArrayList<Guess> guesses = currentPlayer.getGuesses();
+            String guessesStr = "<html>";
+            for (Guess g: guesses) {
+                String oneGuessStr = g.toString();
+                guessesStr = guessesStr + oneGuessStr + "<br>";
+            }
+            infoLbl.setText(guessesStr);
+            
+        }
     }
 }

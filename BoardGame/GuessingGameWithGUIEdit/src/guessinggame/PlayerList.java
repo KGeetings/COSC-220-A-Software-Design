@@ -21,7 +21,7 @@ public class PlayerList {
         names = new ArrayList<>();
         numPlayers = 0;
         maxPlayers = 0;
-        currentPlayer = 0;
+        currentPlayer = -1;
     }
     
     public void addPlayer(Player p) {
@@ -35,10 +35,11 @@ public class PlayerList {
     }
     
     public Player getNextPlayer() {
-        Player p = thePlayers.get(names.get(currentPlayer));
         currentPlayer++;
         if (currentPlayer == maxPlayers)
             currentPlayer = 0;
+        Player p = thePlayers.get(names.get(currentPlayer));
+        
         return p;
     }
     
@@ -56,6 +57,20 @@ public class PlayerList {
     
     public void setMax(int max) {
         maxPlayers = max;
+    }
+    
+    public boolean isFirstPlayer() {
+        if (currentPlayer == 0)
+            return true;
+        else
+            return false;
+    }
+    
+    public boolean isLastPlayer() {
+        if (currentPlayer == (maxPlayers - 1))
+            return true;
+        else
+            return false;
     }
     
 }

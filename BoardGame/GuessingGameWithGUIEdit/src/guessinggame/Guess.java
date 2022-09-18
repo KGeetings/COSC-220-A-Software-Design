@@ -37,4 +37,9 @@ public class Guess {
         return distance;
     }
     
+    public String toString() {
+        String str = "Row: " + row + " Col: " + col + " Hot: " + hot + " Distance: " + distance;
+        return str;
+    }
+    
 }

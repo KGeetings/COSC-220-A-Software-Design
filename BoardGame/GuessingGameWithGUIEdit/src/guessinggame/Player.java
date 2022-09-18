@@ -36,4 +36,8 @@ public class Player {
         return hotSpotsFound;
     }
     
+    public void incrementHot() {
+        hotSpotsFound++;
+    }
+    
 }

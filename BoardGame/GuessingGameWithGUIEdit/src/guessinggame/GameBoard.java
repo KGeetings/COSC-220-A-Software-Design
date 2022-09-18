@@ -50,7 +50,6 @@ public class GameBoard {
     
     public boolean testGuess(int r, int c) {
         if (board[r][c] == 1) {
-            board[r][c] = 0;
             return true;
         }
         return false;
@@ -132,6 +131,10 @@ public class GameBoard {
                     return false;
         
         return true;
+    }
+    
+    public void removeHot(int r, int c) {
+        board[r][c] = 0;
     }
     
     public String toString() {
