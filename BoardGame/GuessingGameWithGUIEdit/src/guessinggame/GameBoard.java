@@ -22,7 +22,8 @@ public class GameBoard {
         rdim = 10;
         cdim = 10;
         board = new int[rdim][cdim];
-        numHot = 10;
+        numHot = 3;
+        //numHot = 10;
         
         generateHot();
         

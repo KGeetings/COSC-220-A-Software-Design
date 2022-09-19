@@ -32,7 +32,7 @@ public class Player {
         return guesses;
     }
     
-    public int getHosSpotsFound() {
+    public int getHotSpotsFound() {
         return hotSpotsFound;
     }
     

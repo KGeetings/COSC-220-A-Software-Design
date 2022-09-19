@@ -72,5 +72,26 @@ public class PlayerList {
         else
             return false;
     }
-    
+
+    public String getWinnerName() {
+        int max = 0;
+        String winner = "";
+        for (String name : names) {
+            Player p = thePlayers.get(name);
+            if (p.getHotSpotsFound() > max) {
+                max = p.getHotSpotsFound();
+                winner = name;
+            }
+        }
+        return winner;
+    }
+
+    public String buildStatusString() {
+        String status = "";
+        for (String name : names) {
+            Player p = thePlayers.get(name);
+            status += name + " has found " + p.getHotSpotsFound() + " hot spots";
+        }
+        return status;
+    }
 }

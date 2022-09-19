@@ -133,24 +133,26 @@ public class GameGUI extends JFrame {
                 gridLabels[row][col].setText("1");
                 currentPlayer.addGuess(row, col, result, 0);
                 currentPlayer.incrementHot();
-                resultLbl.setText("Congratulations!  You found a hot spot!");
+                resultLbl.setText("Congratulations! You found a hot spot!");
             }
             else {
                 int distanceToHot = board.findNearest(row, col);
                 currentPlayer.addGuess(row, col, result, distanceToHot);
-                resultLbl.setText("Sorry, try again you were " + distanceToHot + "spaces from a hot spot");
+                resultLbl.setText("Sorry, try again you were " + distanceToHot + " spaces from a hot spot");
             }
             
             //Have all the hotspots been found?
             if (board.allFound()) {
-                //code for determine the winner use case goes here
+                //code to determine the winner by calling PlayerList getWinnerName(), and set infoLbl to display the winner
+                infoLbl.setText("The winner is " + thePlayers.getWinnerName());
             }
             else {
                 if (thePlayers.isLastPlayer()){
                     startRndBtn.setEnabled(true);
                     makeGuessBtn.setEnabled(false);
                     seeGuessBtn.setEnabled(false);
-                    //code for list current status goes here
+                    //code to list current game status by calling PlayerList buildStatusString(), set infoLbl to display the status
+                    infoLbl.setText(thePlayers.buildStatusString());
                 }
                 
                 currentPlayer = thePlayers.getNextPlayer();
