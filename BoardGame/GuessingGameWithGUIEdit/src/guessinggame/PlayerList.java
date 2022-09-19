@@ -90,7 +90,7 @@ public class PlayerList {
         String status = "";
         for (String name : names) {
             Player p = thePlayers.get(name);
-            status += name + " has found " + p.getHotSpotsFound() + " hot spots";
+            status += "<html>" + name + " has found " + p.getHotSpotsFound() + " hot spots<br>";
         }
         return status;
     }
