@@ -28,50 +28,52 @@ public class AddServer {
 	    // Create the server socket that will be used to accept
 	    // incoming connections
 
-	    ServerSocket listen = new ServerSocket( 2001 ); // Bind to any port
+	    try (ServerSocket listen = new ServerSocket( 2001 )) {
+			System.out.println( "Listening on port:  " + listen.getLocalPort() );
+			    System.out.println("Listening on address: " + InetAddress.getLocalHost());
+
+			// Process clients forever...
+
+			while ( true ) {
+
+			// Wait for a client to connect
+
+			Socket client = listen.accept();
+
+			// use the socket to create IO streams
+			PrintWriter out =
+			    new PrintWriter( client.getOutputStream(), true );
+
+			        Scanner in = new Scanner( client.getInputStream() );
+
+			// follow the protocol
+			        String line = in.nextLine();
+			        System.out.println(line);
+			        String number = in.nextLine();
+			        int num = Integer.parseInt(number);
+			        int sum = 0;
+			        for (int i = 0; i < num; ++i)
+			        {
+			            String valStr = in.nextLine();
+			            int val = Integer.parseInt(valStr);
+			            sum += val;
+			        }
+
+			        //Send the result
+			out.println( "Result \n" + Integer.toString(sum) );
+
+
+			out.close();
+			client.close();
+			}
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	    // Print the port so we can run a client that will connect to
 	    // the server.
 
-	    System.out.println( "Listening on port:  " +
-				listen.getLocalPort() );
-            System.out.println("Listening on address: " +
-                    InetAddress.getLocalHost());
-
-	    // Process clients forever...
-
-	    while ( true ) {
-
-		// Wait for a client to connect
-
-		Socket client = listen.accept();
-
-		// use the socket to create IO streams
-		PrintWriter out =
-		    new PrintWriter( client.getOutputStream(), true );
-
-                Scanner in = new Scanner( client.getInputStream() );
-
-		// follow the protocol
-                String line = in.nextLine();
-                System.out.println(line);
-                String number = in.nextLine();
-                int num = Integer.parseInt(number);
-                int sum = 0;
-                for (int i = 0; i < num; ++i)
-                {
-                    String valStr = in.nextLine();
-                    int val = Integer.parseInt(valStr);
-                    sum += val;
-                }
-
-                //Send the result
-		out.println( "Result \n" + Integer.toString(sum) );
-
-
-		out.close();
-		client.close();
-	    }
 
 	} catch( IOException e) {
 	    System.err.println( e.getMessage() );
