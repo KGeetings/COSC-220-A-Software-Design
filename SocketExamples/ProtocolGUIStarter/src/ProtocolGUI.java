@@ -1,3 +1,8 @@
+import java.io.*;
+import java.net.*;
+//import java.nio.charset.StandardCharsets;
+import java.util.Scanner;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -93,7 +98,72 @@ public class ProtocolGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void connectBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectBtnActionPerformed
-        // TODO add your handling code here:
+        // IP address is 216.159.154.217
+        try {
+            try (Socket connector = new Socket("localhost", 2001)) {
+                InputStream inStream = connector.getInputStream();
+                OutputStream outStream = connector.getOutputStream();
+
+                try (Scanner in = new Scanner(inStream)) {
+                    PrintWriter out = new PrintWriter(
+                        new OutputStreamWriter(outStream),
+                        true /* autoFlush */);
+                    
+                    //communicate!
+                    out.println("HELLO");
+                    String response = in.nextLine();
+                    System.out.println(response);
+                    if (true) {
+                        return;
+                    }
+                    if (response.equals("NAME?")) {
+                        out.println(nameFld.getText());
+                        response = in.nextLine();
+                        System.out.println(response);
+                        String[] parts = response.split(" ");
+                        if (parts.length == 4) {
+                            String first = parts[0];
+                            String task = parts[1];
+                            int n1 = Integer.parseInt(parts[2]);
+                            int n2 = Integer.parseInt(parts[3]);
+                            int result = 0;
+                            if (task.equals("ADD")) {
+                                result = n1 + n2;
+                            }
+                            else if (task.equals("SUB")) {
+                                result = n1 - n2;
+                            }
+                            else {
+                                messagesArea.setText("BAD - not add or sub");
+                                return;
+                            }
+                            out.println("RESULT " + result);
+                            response = in.nextLine();
+                            System.out.println(response);
+                            if (response.equals("GOOD")) {
+                                messagesArea.setText("GOOD");
+                            }
+                            else {
+                                messagesArea.setText("BAD - not good");
+                            }
+                        }
+                        else {
+                            messagesArea.setText("BAD - not 4 parts");
+                        }
+                    }
+                    else {
+                        messagesArea.setText("BAD - not name?");
+                    }
+                }
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+
+        }
+        catch (IOException e) {
+            System.out.println("Error");
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_connectBtnActionPerformed
 
     /**
