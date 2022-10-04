@@ -31,7 +31,7 @@ public class LogInPage extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        signInButton = new javax.swing.JButton();
         jPasswordField1 = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -43,7 +43,7 @@ public class LogInPage extends javax.swing.JDialog {
 
         jLabel3.setText("Password:");
 
-        jButton1.setText("Sign In");
+        signInButton.setText("Sign In");
 
         jPasswordField1.setText("jPasswordField1");
 
@@ -66,7 +66,7 @@ public class LogInPage extends javax.swing.JDialog {
                 .addContainerGap(27, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(signInButton)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -83,7 +83,7 @@ public class LogInPage extends javax.swing.JDialog {
                     .addComponent(jLabel3)
                     .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(signInButton)
                 .addContainerGap())
         );
 
@@ -133,11 +133,11 @@ public class LogInPage extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JButton signInButton;
     // End of variables declaration//GEN-END:variables
 }
