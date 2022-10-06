@@ -113,9 +113,6 @@ public class ProtocolGUI extends javax.swing.JFrame {
                     out.println("HELLO");
                     String response = in.nextLine();
                     System.out.println(response);
-                    if (true) {
-                        return;
-                    }
                     if (response.equals("NAME?")) {
                         out.println(nameFld.getText());
                         response = in.nextLine();
