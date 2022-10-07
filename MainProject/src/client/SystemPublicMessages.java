@@ -1,4 +1,4 @@
-package mainproject;
+package client;
 
 import java.util.HashMap;
 
