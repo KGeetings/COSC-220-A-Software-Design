@@ -19,12 +19,13 @@ public class Driver {
         //create a UserList object
         UserList userList = new UserList();
 
-        try (//create a socket
-        Socket connector = new Socket("localhost", 2001)) {
+        try (ServerSocket listen = new ServerSocket (2001)) {
+            //wait for a client to connect
+            Socket client = listen.accept();
             //use the socket to create IO streams
-            PrintWriter out = new PrintWriter(connector.getOutputStream(), true);
-            Scanner in = new Scanner(connector.getInputStream());
-
+            PrintWriter out = new PrintWriter(client.getOutputStream(), true);
+            Scanner in = new Scanner(client.getInputStream());
+            
             //follow the protocol
             String line = in.nextLine();
             System.out.println(line);
