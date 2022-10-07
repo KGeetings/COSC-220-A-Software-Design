@@ -9,8 +9,11 @@ public class Driver {
     //Server driver connects to clients with a socket and communicates with them
 
     //Protocol:
-        //Client sends a command (LOGIN, LOGOUT, REGISTER, GETLIST), along with the expected information (for example, username, password, ipAddress for login)
+        //Client sends a command (LOGIN, LOGOUT, REGISTER, GETLIST)
         //Server responds with a message (SUCCESS, FAILURE, LIST)
+        //If SUCCESS, Client expected information (for example, username, password, ipAddress for login)
+        //If FAILURE, Client expected error message
+        //If LIST, Client expected list of users
 
     public static void main(String[] args) {
         //create a UserList object
@@ -25,13 +28,85 @@ public class Driver {
             //follow the protocol
             String line = in.nextLine();
             System.out.println(line);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+            if (line.equals("LOGIN")) {
+                //get username, password, and ipAddress
+                String username = in.nextLine();
+                String password = in.nextLine();
+                String ipAddress = in.nextLine();
 
-        //while loop to keep the server running
-            //accept a connection from a client
-            //create a thread to handle the client
+                //check if the user exists
+                if (userList.userExists(username)) {
+                    //check if the password is correct
+                    if (userList.checkPassword(username, password)) {
+                        //check if the user is already logged in
+                        if (userList.checkLoggedIn(username)) {
+                            //if the user is already logged in, send a failure message
+                            out.println("FAILURE");
+                            out.println("User already logged in");
+                        } else {
+                            //if the user is not logged in, log them in
+                            userList.login(username, password, ipAddress);
+                            out.println("SUCCESS");
+                        }
+                    } else {
+                        //if the password is incorrect, send a failure message
+                        out.println("FAILURE");
+                        out.println("Incorrect password");
+                    }
+                } else {
+                    //if the user does not exist, send a failure message
+                    out.println("FAILURE");
+                    out.println("User does not exist");
+                }
+            } else if (line.equals("LOGOUT")) {
+                //get username
+                String username = in.nextLine();
+
+                //check if the user exists
+                if (userList.userExists(username)) {
+                    //check if the user is logged in
+                    if (userList.checkLoggedIn(username)) {
+                        //if the user is logged in, log them out
+                        userList.logout(username);
+                        out.println("SUCCESS");
+                    } else {
+                        //if the user is not logged in, send a failure message
+                        out.println("FAILURE");
+                        out.println("User not logged in");
+                    }
+                } else {
+                    //if the user does not exist, send a failure message
+                    out.println("FAILURE");
+                    out.println("User does not exist");
+                }
+            } else if (line.equals("REGISTER")) {
+                //get username, password, and ipAddress
+                String username = in.nextLine();
+                String password = in.nextLine();
+                String ipAddress = in.nextLine();
+
+                //check if the user exists
+                if (userList.userExists(username)) {
+                    //if the user exists, send a failure message
+                    out.println("FAILURE");
+                    out.println("User already exists");
+                } else {
+                    //if the user does not exist, register them
+                    userList.register(username, password, ipAddress);
+                    out.println("SUCCESS");
+                }
+            } else if (line.equals("GETLIST")) {
+                //get the list of users
+                String list = userList.getList();
+
+                //send the list of users
+                out.println("LIST");
+                out.println(list);
+            }
+        } catch (IOException e) {
+            // If an I/O error occurs, print a message, then attempt to reconnect
+            System.out.println("Connection lost, attempting to reconnect");
+            main(args);
+        }
     }
 }
