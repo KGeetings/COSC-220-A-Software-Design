@@ -4,17 +4,24 @@
  */
 package client;
 
+import java.io.*;
+import java.net.*;
+import java.util.Scanner;
 /**
  *
  * @author Kenyon
  */
-public class MainProject {
-
+public class Client {
     /**
      * @param args the command line arguments
      */
+
     public static void main(String[] args) {
-        // TODO code application logic here
+        // Run StartupWindow.java form
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new StartupWindow().setVisible(true);
+            }
+        });
     }
-    
 }

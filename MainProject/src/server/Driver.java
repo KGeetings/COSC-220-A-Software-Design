@@ -34,6 +34,7 @@ public class Driver {
                 String username = in.nextLine();
                 String password = in.nextLine();
                 String ipAddress = in.nextLine();
+                System.out.println(username + " " + password + " " + ipAddress);
 
                 //check if the user exists
                 if (userList.userExists(username)) {
@@ -85,6 +86,7 @@ public class Driver {
                 String username = in.nextLine();
                 String password = in.nextLine();
                 String ipAddress = in.nextLine();
+                System.out.println(username + " " + password + " " + ipAddress);
 
                 //check if the user exists
                 if (userList.userExists(username)) {
@@ -97,16 +99,23 @@ public class Driver {
                     out.println("SUCCESS");
                 }
             } else if (line.equals("GETLIST")) {
+                System.out.println("Running getlist");
                 //get the list of users
                 String list = userList.getList();
 
                 //send the list of users
+                System.out.println("Sending list");
                 out.println("LIST");
                 out.println(list);
+                System.out.println("List:");
+                System.out.println(list);
             }
         } catch (IOException e) {
             // If an I/O error occurs, print a message, then attempt to reconnect
             System.out.println("Connection lost, attempting to reconnect");
+            main(args);
+        } finally {
+            //Rerun the server
             main(args);
         }
     }
