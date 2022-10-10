@@ -13,6 +13,11 @@ public class Client {
      * @param args the command line arguments
      */
 
+    //keep track of the user's username
+    public static String username;
+    public static String password;
+    public static String ipAddress;
+
     public static void main(String[] args) {
         // Run StartupWindow.java form
         java.awt.EventQueue.invokeLater(new Runnable() {

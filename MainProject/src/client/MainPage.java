@@ -4,6 +4,10 @@
  */
 package client;
 
+import java.io.*;
+import java.net.*;
+import java.util.Scanner;
+
 /**
  *
  * @author Kenyon
@@ -80,6 +84,11 @@ public class MainPage extends javax.swing.JFrame {
         mySentMessagesLabel.setText("My Sent Messages:");
 
         logOutButton.setText("Log Out");
+        logOutButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logOutButtonActionPerformed(evt);
+            }
+        });
 
         peopleFollowingLabel.setText("People I'm Following:");
 
@@ -380,6 +389,43 @@ public class MainPage extends javax.swing.JFrame {
         CreateMessage createMessage = new CreateMessage(this, true);
         createMessage.setVisible(true);
     }//GEN-LAST:event_createMesssageButtonActionPerformed
+
+    private void logOutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOutButtonActionPerformed
+        try (Socket connector = new Socket("localhost", 2001)) {
+            InputStream inStream = connector.getInputStream();
+            OutputStream outStream = connector.getOutputStream();
+
+            try (Scanner in = new Scanner(inStream)) {
+                PrintWriter out = new PrintWriter(new OutputStreamWriter(outStream), true);
+
+                // Send "REGISTER" to server
+                out.println("LOGOUT");
+
+                // Check if username is saved in Client.java
+                if (Client.username != null) {
+                    // Send username to server
+                    out.println(Client.username);
+                } else {
+                    // Popup error message
+                    javax.swing.JOptionPane.showMessageDialog(this, "How did you get here?");
+                }
+                
+                // Receive response from server
+                String response = in.nextLine();
+                            
+                // If response is "success", then close the window and return to login page
+                if (response.equals("SUCCESS")) {
+                    this.dispose();
+                } if (response.equals("FAILURE")) {
+                    // Get next line from server and display it as a popup error
+                    String error = in.nextLine();
+                    javax.swing.JOptionPane.showMessageDialog(this, error);
+                }
+            }
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
+    }//GEN-LAST:event_logOutButtonActionPerformed
 
     /**
      * @param args the command line arguments

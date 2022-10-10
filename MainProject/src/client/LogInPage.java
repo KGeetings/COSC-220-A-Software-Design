@@ -122,6 +122,10 @@ public class LogInPage extends javax.swing.JDialog {
                 
                 // If response is "SUCCESS", close login page and open main page
                 if (response.equals("SUCCESS")) {
+                    //store the username and password and ipAddress to Client.java
+                    Client.username = usernameTextField.getText();
+                    Client.password = userPasswordField.getText();
+                    Client.ipAddress = "localhost";
                     this.dispose();
                     new MainPage().setVisible(true);
                 } if (response.equals("FAILURE")) {
