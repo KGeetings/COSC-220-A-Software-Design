@@ -16,7 +16,7 @@ public class Driver {
         //If LIST, Client expected list of users
 
     public Driver (int port, UserList userList) {
-        try (ServerSocket listen = new ServerSocket (2001)) {
+        try (ServerSocket listen = new ServerSocket (port)) {
             //wait for a client to connect
             Socket client = listen.accept();
             //use the socket to create IO streams
