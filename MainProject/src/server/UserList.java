@@ -9,11 +9,7 @@ public class UserList {
     public boolean userExists(String username) {
         //check if the user exists
         //return true if the user exists, false if not
-        if (userList.containsKey(username)) {
-            return true;
-        } else {
-            return false;
-        }
+        return userList.containsKey(username);
     }
 
     public boolean checkPassword(String username, String password) {

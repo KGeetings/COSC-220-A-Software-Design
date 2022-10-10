@@ -122,6 +122,10 @@ public class RegisterUser extends javax.swing.JDialog {
                 // If response is "success", then close the window and return to login page
                 if (response.equals("SUCCESS")) {
                     this.dispose();
+                } if (response.equals("FAILURE")) {
+                    // Get next line from server and display it as a popup error
+                    String error = in.nextLine();
+                    javax.swing.JOptionPane.showMessageDialog(this, error);
                 }
             }
         } catch (IOException ex) {
