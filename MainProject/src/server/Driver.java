@@ -15,10 +15,7 @@ public class Driver {
         //If FAILURE, Client expected error message
         //If LIST, Client expected list of users
 
-    public static void main(String[] args) {
-        //create a UserList object
-        UserList userList = new UserList();
-
+    public Driver (int port, UserList userList) {
         try (ServerSocket listen = new ServerSocket (2001)) {
             //wait for a client to connect
             Socket client = listen.accept();
@@ -113,10 +110,19 @@ public class Driver {
         } catch (IOException e) {
             // If an I/O error occurs, print a message, then attempt to reconnect
             System.out.println("Connection lost, attempting to reconnect");
-            main(args);
-        } finally {
-            //Rerun the server
-            main(args);
+        }
+    }
+
+    public static void main(String[] args) {
+        //create a UserList object
+        UserList userList = new UserList();
+
+        //create a server driver object
+        Driver driver = new Driver(2001, userList);
+
+        //continue to rerun the driver if the connection is lost
+        while (true) {
+            driver = new Driver(2001, userList);
         }
     }
 }
