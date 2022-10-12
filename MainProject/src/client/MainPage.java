@@ -19,6 +19,7 @@ public class MainPage extends javax.swing.JFrame {
      */
     public MainPage() {
         initComponents();
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
     }
 
     /**
@@ -76,6 +77,14 @@ public class MainPage extends javax.swing.JFrame {
         goWhoToMessageButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         mySentMessagesTextArea.setColumns(20);
         mySentMessagesTextArea.setRows(5);
@@ -421,11 +430,93 @@ public class MainPage extends javax.swing.JFrame {
                     String error = in.nextLine();
                     javax.swing.JOptionPane.showMessageDialog(this, error);
                 }
+                //Set Client.username to null
+                Client.username = null;
             }
         } catch (IOException ex) {
             System.out.println(ex);
         }
     }//GEN-LAST:event_logOutButtonActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // Check if we have already logged out, if not, log out
+        if (Client.username != null) {
+            try (Socket connector = new Socket("localhost", 2001)) {
+                InputStream inStream = connector.getInputStream();
+                OutputStream outStream = connector.getOutputStream();
+
+                try (Scanner in = new Scanner(inStream)) {
+                    PrintWriter out = new PrintWriter(new OutputStreamWriter(outStream), true);
+
+                    // Send "REGISTER" to server
+                    out.println("LOGOUT");
+
+                    // Check if username is saved in Client.java
+                    if (Client.username != null) {
+                        // Send username to server
+                        out.println(Client.username);
+                    } else {
+                        // Popup error message
+                        javax.swing.JOptionPane.showMessageDialog(this, "How did you get here?");
+                    }
+                    
+                    // Receive response from server
+                    String response = in.nextLine();
+                                
+                    // If response is "success", then close the window and return to login page
+                    if (response.equals("SUCCESS")) {
+                        this.dispose();
+                    } if (response.equals("FAILURE")) {
+                        // Get next line from server and display it as a popup error
+                        String error = in.nextLine();
+                        javax.swing.JOptionPane.showMessageDialog(this, error);
+                    }
+                }
+            } catch (IOException ex) {
+                System.out.println(ex);
+            }
+        }
+    }//GEN-LAST:event_formWindowClosed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // Check if we have already logged out, if not, log out
+        if (Client.username != null) {
+            try (Socket connector = new Socket("localhost", 2001)) {
+                InputStream inStream = connector.getInputStream();
+                OutputStream outStream = connector.getOutputStream();
+
+                try (Scanner in = new Scanner(inStream)) {
+                    PrintWriter out = new PrintWriter(new OutputStreamWriter(outStream), true);
+
+                    // Send "REGISTER" to server
+                    out.println("LOGOUT");
+
+                    // Check if username is saved in Client.java
+                    if (Client.username != null) {
+                        // Send username to server
+                        out.println(Client.username);
+                    } else {
+                        // Popup error message
+                        javax.swing.JOptionPane.showMessageDialog(this, "How did you get here?");
+                    }
+                    
+                    // Receive response from server
+                    String response = in.nextLine();
+                                
+                    // If response is "success", then close the window and return to login page
+                    if (response.equals("SUCCESS")) {
+                        this.dispose();
+                    } if (response.equals("FAILURE")) {
+                        // Get next line from server and display it as a popup error
+                        String error = in.nextLine();
+                        javax.swing.JOptionPane.showMessageDialog(this, error);
+                    }
+                }
+            } catch (IOException ex) {
+                System.out.println(ex);
+            }
+        }
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments
