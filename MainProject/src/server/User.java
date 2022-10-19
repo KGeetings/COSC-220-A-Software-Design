@@ -1,22 +1,26 @@
 package server;
 
 public class User {
-    //inludes username, password, ipAddress, and status
     //Methods are getUsername, getPassword, getIpAddress, getStatus, setUsername, setPassword, setIpAddress, setStatus
+    //ALso need to getFollowers, getFollowing, addFollower, addFollowing, removeFollower, removeFollowing
+    //inludes username, password, ipAddress, and status, and followers and following
 
     //fields
     private String username;
     private String password;
     private String ipAddress;
     private boolean status;
+    private String followers;
+    private String following;
 
     //constructor
     public User(String username, String password, String ipAddress, String status) {
-        //initialize the variables
         this.username = username;
         this.password = password;
         this.ipAddress = ipAddress;
         this.status = Boolean.parseBoolean(status);
+        this.followers = "";
+        this.following = "";
     }
 
     public Object getPassword() {
@@ -49,6 +53,42 @@ public class User {
 
     public void setUsername(String username2) {
         username = username2;
+    }
+
+    public String getFollowers() {
+        return followers;
+    }
+
+    public String getFollowing() {
+        return following;
+    }
+
+    public void addFollower(String username) {
+        followers = followers + username + ",";
+    }
+
+    public void addFollowing(String username) {
+        following = following + username + ",";
+    }
+
+    public void removeFollower(String username) {
+        String[] followersArray = followers.split(",");
+        followers = "";
+        for (int i = 0; i < followersArray.length; i++) {
+            if (!followersArray[i].equals(username)) {
+                followers = followers + followersArray[i] + ",";
+            }
+        }
+    }
+
+    public void removeFollowing(String username) {
+        String[] followingArray = following.split(",");
+        following = "";
+        for (int i = 0; i < followingArray.length; i++) {
+            if (!followingArray[i].equals(username)) {
+                following = following + followingArray[i] + ",";
+            }
+        }
     }
 
 }
