@@ -9,11 +9,12 @@ public class Driver {
     //Server driver connects to clients with a socket and communicates with them
 
     //Protocol:
-        //Client sends a command (LOGIN, LOGOUT, REGISTER, GETLIST)
-        //Server responds with a message (SUCCESS, FAILURE, LIST)
+        //Client sends a command example: (LOGIN, LOGOUT, REGISTER, GETLIST)
+        //Server responds with a message example: (SUCCESS, FAILURE, LIST)
         //If SUCCESS, Client expected information (for example, username, password, ipAddress for login)
         //If FAILURE, Client expected error message
         //If LIST, Client expected list of users
+
 
     public Driver (int port, UserList userList) {
         try (ServerSocket listen = new ServerSocket (port)) {
@@ -106,6 +107,106 @@ public class Driver {
                 out.println(list);
                 System.out.println("List:");
                 System.out.println(list);
+            } //Client follows a user
+            else if (line.equals("FOLLOW")) {
+                //get username and followee
+                String username = in.nextLine();
+                String followee = in.nextLine();
+                System.out.println(username + " " + followee);
+
+                //check if the user exists
+                if (userList.userExists(username)) {
+                    //check if the followee exists
+                    if (userList.userExists(followee)) {
+                        //check if the user is already following the followee
+                        if (userList.checkFollowing(username, followee)) {
+                            //if the user is already following the followee, send a failure message
+                            out.println("FAILURE");
+                            out.println("User already following");
+                        } else {
+                            //if the user is not following the followee, follow them, and set the followee's follower to the user
+                            userList.addFollowing(username, followee);
+                            userList.addFollower(followee, username);
+                            out.println("SUCCESS");
+                        }
+                    } else {
+                        //if the followee does not exist, send a failure message
+                        out.println("FAILURE");
+                        out.println("Followee does not exist");
+                    }
+                } else {
+                    //if the user does not exist, send a failure message
+                    out.println("FAILURE");
+                    out.println("User does not exist");
+                }
+            } //Client unfollows a user
+            else if (line.equals("UNFOLLOW")) {
+                //get username and followee
+                String username = in.nextLine();
+                String followee = in.nextLine();
+                System.out.println(username + " " + followee);
+
+                //check if the user exists
+                if (userList.userExists(username)) {
+                    //check if the followee exists
+                    if (userList.userExists(followee)) {
+                        //check if the user is following the followee
+                        if (userList.checkFollowing(username, followee)) {
+                            //if the user is following the followee, unfollow them, and remove the followee's follower
+                            userList.removeFollowing(username, followee);
+                            userList.removeFollower(followee, username);
+                            out.println("SUCCESS");
+                        } else {
+                            //if the user is not following the followee, send a failure message
+                            out.println("FAILURE");
+                            out.println("User not following");
+                        }
+                    } else {
+                        //if the followee does not exist, send a failure message
+                        out.println("FAILURE");
+                        out.println("Followee does not exist");
+                    }
+                } else {
+                    //if the user does not exist, send a failure message
+                    out.println("FAILURE");
+                    out.println("User does not exist");
+                }
+            } //Client gets the list of users they are following
+            else if (line.equals("GETFOLLOWING")) {
+                //get username
+                String username = in.nextLine();
+
+                //check if the user exists
+                if (userList.userExists(username)) {
+                    //get the list of users the user is following
+                    String list = userList.getFollowing(username);
+
+                    //send the list of users the user is following
+                    out.println("LIST");
+                    out.println(list);
+                } else {
+                    //if the user does not exist, send a failure message
+                    out.println("FAILURE");
+                    out.println("User does not exist");
+                }
+            } //Client gets the list of users following them
+            else if (line.equals("GETFOLLOWERS")) {
+                //get username
+                String username = in.nextLine();
+
+                //check if the user exists
+                if (userList.userExists(username)) {
+                    //get the list of users following the user
+                    String list = userList.getFollowers(username);
+
+                    //send the list of users following the user
+                    out.println("LIST");
+                    out.println(list);
+                } else {
+                    //if the user does not exist, send a failure message
+                    out.println("FAILURE");
+                    out.println("User does not exist");
+                }
             }
         } catch (IOException e) {
             // If an I/O error occurs, print a message, then attempt to reconnect

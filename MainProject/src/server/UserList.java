@@ -70,4 +70,57 @@ public class UserList {
         }
         return list;
     }
+
+    //addFollower method
+    public void addFollower(String username, String follower) {
+        //add a follower to the user's list of followers
+        userList.get(username).addFollower(follower);
+    }
+
+    //addFollowing method
+    public void addFollowing(String username, String following) {
+        //add a user to the user's list of following
+        userList.get(username).addFollowing(following);
+    }
+
+    //removeFollower method
+    public void removeFollower(String username, String follower) {
+        //remove a follower from the user's list of followers
+        userList.get(username).removeFollower(follower);
+    }
+
+    //removeFollowing method
+    public void removeFollowing(String username, String following) {
+        //remove a user from the user's list of following
+        userList.get(username).removeFollowing(following);
+    }
+
+    //getFollowers method
+    public String getFollowers(String username) {
+        //return a list of the user's followers
+        return userList.get(username).getFollowers();
+    }
+
+    //getFollowing method
+    public String getFollowing(String username) {
+        //return a list of the user's following
+        return userList.get(username).getFollowing();
+    }
+
+    //getIpAddress method
+    public String getIpAddress(String username) {
+        //return the user's ip address
+        return userList.get(username).getIpAddress();
+    }
+
+    public boolean checkFollowing(String username, String followee) {
+        //check if the user is following the followee
+        //return true if the user is following the followee, false if not
+        if (userList.get(username).getFollowing().contains(followee)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
