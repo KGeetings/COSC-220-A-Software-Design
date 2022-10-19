@@ -216,6 +216,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Follow"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="followThemButtonActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="unfollowThemLabel">
               <Properties>
@@ -233,6 +236,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Unfollow"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="unfollowThemButtonActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

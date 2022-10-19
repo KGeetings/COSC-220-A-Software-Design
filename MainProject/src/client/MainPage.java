@@ -110,12 +110,22 @@ public class MainPage extends javax.swing.JFrame {
         usernameFollowThemLabel.setText("Username:");
 
         followThemButton.setText("Follow");
+        followThemButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                followThemButtonActionPerformed(evt);
+            }
+        });
 
         unfollowThemLabel.setText("Tired of someone? Unfollow them!");
 
         usernameUnfollowThemLabel.setText("Username:");
 
         unfollowThemButton.setText("Unfollow");
+        unfollowThemButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                unfollowThemButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -517,6 +527,92 @@ public class MainPage extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_formWindowClosing
+
+    private void followThemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_followThemButtonActionPerformed
+        // Get the username of the user we want to follow from the text field and store it in a variable
+        String username = followThemTextField.getText();
+        
+        // Check if we have selected a user
+        if (username != null) {
+            try (Socket connector = new Socket("localhost", 2001)) {
+                InputStream inStream = connector.getInputStream();
+                OutputStream outStream = connector.getOutputStream();
+
+                try (Scanner in = new Scanner(inStream)) {
+                    PrintWriter out = new PrintWriter(new OutputStreamWriter(outStream), true);
+
+                    // Send "FOLLOW" to server
+                    out.println("FOLLOW");
+
+                    // Send username to server
+                    out.println(Client.username);
+                    
+                    // Send username of user we want to follow
+                    out.println(username);
+                    
+                    // Receive response from server
+                    String response = in.nextLine();
+                                
+                    // If response is "success", then popup message saying we have followed the user
+                    if (response.equals("SUCCESS")) {
+                        javax.swing.JOptionPane.showMessageDialog(this, "You are now following " + username);
+                    } if (response.equals("FAILURE")) {
+                        // Get next line from server and display it as a popup error
+                        String error = in.nextLine();
+                        javax.swing.JOptionPane.showMessageDialog(this, error);
+                    }
+                }
+            } catch (IOException ex) {
+                System.out.println(ex);
+            }
+        } else {
+            // Popup error message
+            javax.swing.JOptionPane.showMessageDialog(this, "Please select a user to follow");
+        }
+    }//GEN-LAST:event_followThemButtonActionPerformed
+
+    private void unfollowThemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_unfollowThemButtonActionPerformed
+        // Get the username of the user we want to unfollow from the text field and store it in a variable
+        String username = unfollowThemTextField.getText();
+        
+        // Check if we have selected a user
+        if (username != null) {
+            try (Socket connector = new Socket("localhost", 2001)) {
+                InputStream inStream = connector.getInputStream();
+                OutputStream outStream = connector.getOutputStream();
+
+                try (Scanner in = new Scanner(inStream)) {
+                    PrintWriter out = new PrintWriter(new OutputStreamWriter(outStream), true);
+
+                    // Send "UNFOLLOW" to server
+                    out.println("UNFOLLOW");
+
+                    // Send username to server
+                    out.println(Client.username);
+                    
+                    // Send username of user we want to unfollow
+                    out.println(username);
+                    
+                    // Receive response from server
+                    String response = in.nextLine();
+                                
+                    // If response is "success", popup message that we have unfollowed the user
+                    if (response.equals("SUCCESS")) {
+                        javax.swing.JOptionPane.showMessageDialog(this, "You have unfollowed " + username);
+                    } if (response.equals("FAILURE")) {
+                        // Get next line from server and display it as a popup error
+                        String error = in.nextLine();
+                        javax.swing.JOptionPane.showMessageDialog(this, error);
+                    }
+                }
+            } catch (IOException ex) {
+                System.out.println(ex);
+            }
+        } else {
+            // Popup error message
+            javax.swing.JOptionPane.showMessageDialog(this, "Please select a user to unfollow");
+        }
+    }//GEN-LAST:event_unfollowThemButtonActionPerformed
 
     /**
      * @param args the command line arguments
