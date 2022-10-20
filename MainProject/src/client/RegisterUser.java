@@ -54,6 +54,11 @@ public class RegisterUser extends javax.swing.JDialog {
         });
 
         userPasswordField.setText("jPasswordField1");
+        userPasswordField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                userPasswordFieldFocusGained(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -131,6 +136,10 @@ public class RegisterUser extends javax.swing.JDialog {
             System.out.println(ex);
         }
     }//GEN-LAST:event_signUpButtonActionPerformed
+
+    private void userPasswordFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_userPasswordFieldFocusGained
+        userPasswordField.setText("");
+    }//GEN-LAST:event_userPasswordFieldFocusGained
 
     /**
      * @param args the command line arguments
