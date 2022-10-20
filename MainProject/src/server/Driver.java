@@ -116,13 +116,19 @@ public class Driver {
 
                 //check if the user exists
                 if (userList.userExists(username)) {
+                    //check if we are trying to follow ourselves
+                    if (username.equals(followee)) {
+                        //if we are trying to follow ourselves, send a failure message
+                        out.println("FAILURE");
+                        out.println("Cannot follow yourself");
+                    }
                     //check if the followee exists
-                    if (userList.userExists(followee)) {
+                    else if (userList.userExists(followee)) {
                         //check if the user is already following the followee
                         if (userList.checkFollowing(username, followee)) {
                             //if the user is already following the followee, send a failure message
                             out.println("FAILURE");
-                            out.println("User already following");
+                            out.println("Already following user");
                         } else {
                             //if the user is not following the followee, follow them, and set the followee's follower to the user
                             userList.addFollowing(username, followee);
@@ -148,8 +154,14 @@ public class Driver {
 
                 //check if the user exists
                 if (userList.userExists(username)) {
+                    //check if we are trying to unfollow ourselves
+                    if (username.equals(followee)) {
+                        //if we are trying to unfollow ourselves, send a failure message
+                        out.println("FAILURE");
+                        out.println("Cannot unfollow yourself");
+                    }
                     //check if the followee exists
-                    if (userList.userExists(followee)) {
+                    else if (userList.userExists(followee)) {
                         //check if the user is following the followee
                         if (userList.checkFollowing(username, followee)) {
                             //if the user is following the followee, unfollow them, and remove the followee's follower
@@ -159,7 +171,7 @@ public class Driver {
                         } else {
                             //if the user is not following the followee, send a failure message
                             out.println("FAILURE");
-                            out.println("User not following");
+                            out.println("You are not following this user");
                         }
                     } else {
                         //if the followee does not exist, send a failure message
@@ -182,8 +194,9 @@ public class Driver {
                     String list = userList.getFollowing(username);
 
                     //send the list of users the user is following
-                    out.println("LIST");
+                    out.println("SUCCESS");
                     out.println(list);
+                    System.out.println(list);
                 } else {
                     //if the user does not exist, send a failure message
                     out.println("FAILURE");
@@ -200,8 +213,9 @@ public class Driver {
                     String list = userList.getFollowers(username);
 
                     //send the list of users following the user
-                    out.println("LIST");
+                    out.println("SUCCESS");
                     out.println(list);
+                    System.out.println(list);
                 } else {
                     //if the user does not exist, send a failure message
                     out.println("FAILURE");
@@ -218,12 +232,11 @@ public class Driver {
         //create a UserList object
         UserList userList = new UserList();
 
-        //create a server driver object
-        Driver driver = new Driver(2001, userList);
+        new Driver(2001, userList);
 
         //continue to rerun the driver if the connection is lost
         while (true) {
-            driver = new Driver(2001, userList);
+            new Driver(2001, userList);
         }
     }
 }
