@@ -14,11 +14,13 @@ import java.util.Scanner;
  */
 public class LogInPage extends javax.swing.JDialog {
 
+    java.awt.Frame sw1;
     /**
      * Creates new form LogInPage
      */
     public LogInPage(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        sw1 = parent;
         initComponents();
     }
 
@@ -131,6 +133,7 @@ public class LogInPage extends javax.swing.JDialog {
                     Client.password = userPasswordField.getText();
                     Client.ipAddress = "localhost";
                     this.dispose();
+                    sw1.dispose();
                     new MainPage().setVisible(true);
                 } if (response.equals("FAILURE")) {
                     // Get next line from server and display it as a popup error

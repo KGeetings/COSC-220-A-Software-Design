@@ -22,7 +22,8 @@ public class Client {
         // Run StartupWindow.java form
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new StartupWindow().setVisible(true);
+                StartupWindow sw = new StartupWindow();
+                sw.setVisible(true);
             }
         });
     }
