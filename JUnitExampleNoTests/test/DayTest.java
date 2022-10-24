@@ -3,10 +3,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit5TestClass.java to edit this template
  */
 
-import org.junit.jupiter.api.AfterEach;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+/* import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*; */
 
 /**
  *
@@ -19,12 +24,12 @@ public class DayTest {
     public DayTest() {
     }
     
-    @BeforeEach
+    @Before
     public void setUp() {
         testday = new Day(1);
     }
     
-    @AfterEach
+    @After
     public void tearDown() {
     }
 
@@ -41,13 +46,13 @@ public class DayTest {
 
     @Test
     public void testSuccessfulMakeAppointment() {
+        testday = new Day(1);
         System.out.println("makeAppointment");
         int time = 9;
         Appointment appointment = new Appointment("Class", 1);
         boolean expResult = true;
         boolean result = testday.makeAppointment(time, appointment);
         assertEquals(expResult, result);
-        //fail("The test case is a prototype.");
     }
 
     @Test
@@ -58,7 +63,6 @@ public class DayTest {
         boolean expResult = false;
         boolean result = testday.makeAppointment(time, appointment);
         assertEquals(expResult, result);
-        //fail("The test case is a prototype.");
     }
 
     @Test
@@ -71,7 +75,6 @@ public class DayTest {
         boolean expResult = false;
         boolean result = testday.makeAppointment(time, appointment2);
         assertEquals(expResult, result);
-        //fail("The test case is a prototype.");
     }
 
     @Test
@@ -82,7 +85,6 @@ public class DayTest {
         boolean expResult = true;
         boolean result = testday.makeAppointment(time, appointment);
         assertEquals(expResult, result);
-        //fail("The test case is a prototype.");
     }
 
     @Test
@@ -95,7 +97,6 @@ public class DayTest {
         boolean expResult = false;
         boolean result = testday.makeAppointment(time, appointment2);
         assertEquals(expResult, result);
-        //fail("The test case is a prototype.");
     }
 
     /* @Test
@@ -137,5 +138,5 @@ public class DayTest {
         assertEquals(expResult, result);
         fail("The test case is a prototype.");
     } */
-    
+
 }
