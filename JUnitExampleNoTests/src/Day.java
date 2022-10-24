@@ -47,10 +47,7 @@ public class Day
                 else {
                     // How many more slots are needed?
                     int further_slots_required = duration - 1;
-                    for(int nextSlot = slot + 1;
-                                further_slots_required > 0 &&
-                                appointments[nextSlot] == null;
-                                    nextSlot++) {
+                    for(int nextSlot = slot + 1; further_slots_required > 0 && appointments[nextSlot] == null; nextSlot++) {
                         further_slots_required--;
                     }
                     if(further_slots_required == 0) {
