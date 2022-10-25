@@ -99,44 +99,36 @@ public class DayTest {
         assertEquals(expResult, result);
     }
 
-    /* @Test
-    public void testGetAppointment() {
-        System.out.println("getAppointment");
-        int time = 0;
-        Day instance = null;
-        Appointment expResult = null;
-        Appointment result = instance.getAppointment(time);
+    @Test
+    //Successfully find an open 2 hour block for findSpace(), where some appointments are already made
+    public void testFindSpace() {
+        System.out.println("findSpace");
+        Appointment appointment = new Appointment("Class", 2);
+        testday.makeAppointment(9, new Appointment("Class", 1));
+        testday.makeAppointment(11, new Appointment("Class", 1));
+        testday.makeAppointment(14, new Appointment("Class", 1));
+        int expResult = 12;
+        int result = testday.findSpace(appointment);
         assertEquals(expResult, result);
-        fail("The test case is a prototype.");
     }
 
     @Test
-    public void testShowAppointments() {
-        System.out.println("showAppointments");
-        Day instance = null;
-        instance.showAppointments();
-        fail("The test case is a prototype.");
-    }
-
-    @Test
-    public void testGetDayNumber() {
-        System.out.println("getDayNumber");
-        Day instance = null;
-        int expResult = 0;
-        int result = instance.getDayNumber();
+    //Successfully fail to find an open 2 hour block for findSpace(), where some appointments are already made
+    public void testFailFindSpace() {
+        System.out.println("findSpace");
+        Appointment appointment = new Appointment("Class", 2);
+        testday.makeAppointment(9, new Appointment("Class", 1));
+        testday.makeAppointment(10, new Appointment("Class", 1));
+        testday.makeAppointment(11, new Appointment("Class", 1));
+        testday.makeAppointment(12, new Appointment("Class", 1));
+        testday.makeAppointment(13, new Appointment("Class", 1));
+        testday.makeAppointment(14, new Appointment("Class", 1));
+        testday.makeAppointment(15, new Appointment("Class", 1));
+        testday.makeAppointment(16, new Appointment("Class", 1));
+        //testday.makeAppointment(17, new Appointment("Class", 1));
+        int expResult = -1;
+        int result = testday.findSpace(appointment);
         assertEquals(expResult, result);
-        fail("The test case is a prototype.");
     }
-
-    @Test
-    public void testValidTime() {
-        System.out.println("validTime");
-        int time = 0;
-        Day instance = null;
-        boolean expResult = false;
-        boolean result = instance.validTime(time);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
-    } */
 
 }
