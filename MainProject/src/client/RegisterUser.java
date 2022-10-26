@@ -103,6 +103,7 @@ public class RegisterUser extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    @SuppressWarnings("deprecation")
     private void signUpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signUpButtonActionPerformed
         // Check if username and password are valid, meaning no " " or "!" or "," or ";"
         String username = usernameTextField.getText();

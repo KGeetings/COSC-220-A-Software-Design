@@ -105,6 +105,7 @@ public class LogInPage extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    @SuppressWarnings("deprecation")
     private void signInButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signInButtonActionPerformed
         // Establish connection to server
         try (Socket connector = new Socket("localhost",2001)) {
