@@ -122,6 +122,12 @@ public class Driver {
                         out.println("FAILURE");
                         out.println("Cannot follow yourself");
                     }
+                    //check if we aren't signed in
+                    else if (!userList.checkLoggedIn(username)) {
+                        //if we aren't signed in, send a failure message
+                        out.println("FAILURE");
+                        out.println("User not logged in");
+                    }
                     //check if the followee exists
                     else if (userList.userExists(followee)) {
                         //check if the user is already following the followee
@@ -159,6 +165,12 @@ public class Driver {
                         //if we are trying to unfollow ourselves, send a failure message
                         out.println("FAILURE");
                         out.println("Cannot unfollow yourself");
+                    }
+                    //check if we aren't signed in
+                    else if (!userList.checkLoggedIn(username)) {
+                        //if we aren't signed in, send a failure message
+                        out.println("FAILURE");
+                        out.println("User not logged in");
                     }
                     //check if the followee exists
                     else if (userList.userExists(followee)) {
