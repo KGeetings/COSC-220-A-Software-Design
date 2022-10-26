@@ -104,36 +104,44 @@ public class RegisterUser extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void signUpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signUpButtonActionPerformed
-        try (Socket connector = new Socket("localhost", 2001)) {
-            InputStream inStream = connector.getInputStream();
-            OutputStream outStream = connector.getOutputStream();
-
-            try (Scanner in = new Scanner(inStream)) {
-                PrintWriter out = new PrintWriter(new OutputStreamWriter(outStream), true);
-
-                // Send "REGISTER" to server
-                out.println("REGISTER");
-
-                // Send username, then password, then ipAddress
-                out.println(usernameTextField.getText());
-                out.println(userPasswordField.getText());
-                //out.println(InetAddress.getLocalHost().getHostAddress());
-                out.println("localhost");
-                
-                // Receive response from server
-                String response = in.nextLine();
-                            
-                // If response is "success", then close the window and return to login page
-                if (response.equals("SUCCESS")) {
-                    this.dispose();
-                } if (response.equals("FAILURE")) {
-                    // Get next line from server and display it as a popup error
-                    String error = in.nextLine();
-                    javax.swing.JOptionPane.showMessageDialog(this, error);
+        // Check if username and password are valid, meaning no " " or "!" or "," or ";"
+        String username = usernameTextField.getText();
+        String password = userPasswordField.getText();
+        if (username.length() > 0 && password.length() > 0 && !username.contains(" ") && !username.contains("!") && !username.contains(",") && !username.contains(";") && !password.contains(" ") && !password.contains("!") && !password.contains(",") && !password.contains(";")) {
+            try (Socket connector = new Socket("localhost", 2001)) {
+                InputStream inStream = connector.getInputStream();
+                OutputStream outStream = connector.getOutputStream();
+    
+                try (Scanner in = new Scanner(inStream)) {
+                    PrintWriter out = new PrintWriter(new OutputStreamWriter(outStream), true);
+    
+                    // Send "REGISTER" to server
+                    out.println("REGISTER");
+    
+                    // Send username, then password, then ipAddress
+                    out.println(usernameTextField.getText());
+                    out.println(userPasswordField.getText());
+                    //out.println(InetAddress.getLocalHost().getHostAddress());
+                    out.println("localhost");
+                    
+                    // Receive response from server
+                    String response = in.nextLine();
+                                
+                    // If response is "success", then close the window and return to login page
+                    if (response.equals("SUCCESS")) {
+                        this.dispose();
+                    } if (response.equals("FAILURE")) {
+                        // Get next line from server and display it as a popup error
+                        String error = in.nextLine();
+                        javax.swing.JOptionPane.showMessageDialog(this, error);
+                    }
                 }
+            } catch (IOException ex) {
+                System.out.println(ex);
             }
-        } catch (IOException ex) {
-            System.out.println(ex);
+        } else {
+            // Display error message
+            javax.swing.JOptionPane.showMessageDialog(this, "Username and password cannot be blank, or contain spaces, commas, semicolons, or exclamation points.");
         }
     }//GEN-LAST:event_signUpButtonActionPerformed
 
