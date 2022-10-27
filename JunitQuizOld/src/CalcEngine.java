@@ -180,9 +180,11 @@ public class CalcEngine
 
         if(lastOperator != '?') {
             // First apply the previous operator.
+            String result = calculateResult();
             lastOperator = operator;
             buildingDisplayValue = false;
-            return calculateResult();
+            return result;
+            //return calculateResult();
         }
         else {
             // The displayValue now becomes the left operand of this
