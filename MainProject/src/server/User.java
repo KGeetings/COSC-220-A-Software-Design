@@ -5,6 +5,8 @@ public class User {
     //ALso need to getFollowers, getFollowing, addFollower, addFollowing, removeFollower, removeFollowing
     //inludes username, password, ipAddress, and status, and followers and following
 
+    // Need to keep track of user's last read message from the public feed, only show messages after that one, from users they follow
+
     //fields
     private String username;
     private String password;
@@ -12,6 +14,7 @@ public class User {
     private boolean status;
     private String followers;
     private String following;
+    private int lastRead;
 
     //constructor
     public User(String username, String password, String ipAddress, String status) {
@@ -21,6 +24,7 @@ public class User {
         this.status = Boolean.parseBoolean(status);
         this.followers = "";
         this.following = "";
+        this.lastRead = 0;
     }
 
     public Object getPassword() {
@@ -91,4 +95,11 @@ public class User {
         }
     }
 
+    public int getLastRead() {
+        return lastRead;
+    }
+
+    public void setLastRead(int lastRead2) {
+        lastRead = lastRead2;
+    }
 }

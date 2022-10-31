@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class UserList {
     //UserList object stores a list of users and their information
-    HashMap <String, User> userList = new HashMap <String, User> ();
+    static HashMap <String, User> userList = new HashMap <String, User> ();
 
     public boolean userExists(String username) {
         //check if the user exists
@@ -113,7 +113,7 @@ public class UserList {
         return userList.get(username).getIpAddress();
     }
 
-    public boolean checkFollowing(String username, String followee) {
+    public static boolean checkFollowing(String username, String followee) {
         //check if the user is following the followee
         //return true if the user is following the followee, false if not
         if (userList.get(username).getFollowing().contains(followee)) {
@@ -121,6 +121,11 @@ public class UserList {
         } else {
             return false;
         }
+    }
+
+    //get user's last read message
+    public int getLastRead(String username) {
+        return userList.get(username).getLastRead();
     }
 
 }

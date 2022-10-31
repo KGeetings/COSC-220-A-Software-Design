@@ -131,7 +131,7 @@ public class Driver {
                     //check if the followee exists
                     else if (userList.userExists(followee)) {
                         //check if the user is already following the followee
-                        if (userList.checkFollowing(username, followee)) {
+                        if (UserList.checkFollowing(username, followee)) {
                             //if the user is already following the followee, send a failure message
                             out.println("FAILURE");
                             out.println("Already following user");
@@ -175,7 +175,7 @@ public class Driver {
                     //check if the followee exists
                     else if (userList.userExists(followee)) {
                         //check if the user is following the followee
-                        if (userList.checkFollowing(username, followee)) {
+                        if (UserList.checkFollowing(username, followee)) {
                             //if the user is following the followee, unfollow them, and remove the followee's follower
                             userList.removeFollowing(username, followee);
                             userList.removeFollower(followee, username);
@@ -233,6 +233,58 @@ public class Driver {
                     out.println("FAILURE");
                     out.println("User does not exist");
                 }
+            } //Client receives the public feed from lastread
+            else if (line.equals("GETPUBLICFEED")) {
+                //get username and lastread
+                String username = in.nextLine();
+
+                //check if the user exists
+                if (userList.userExists(username)) {
+                    //check if we aren't signed in
+                    if (!userList.checkLoggedIn(username)) {
+                        //if we aren't signed in, send a failure message
+                        out.println("FAILURE");
+                        out.println("User not logged in");
+                    } else {
+                        //get the public feed from lastread
+                        int lastRead = userList.getLastRead(username);
+                        String feed = MessageList.getPublicFeed(username, lastRead);
+
+                        out.println("SUCCESS");
+
+                        //send the public feed from lastread
+                        out.println(feed);
+                        System.out.println(feed);
+                    }
+                } else {
+                    //if the user does not exist, send a failure message
+                    out.println("FAILURE");
+                    out.println("User does not exist");
+                }
+            } //Client sends a message to the public feed
+            else if (line.equals("SENDPUBLICMESSAGE")) {
+                //get username, message, and timestamp
+                String username = in.nextLine();
+                String message = in.nextLine();
+                String hashtag = in.nextLine();
+
+                //check if the user exists
+                if (userList.userExists(username)) {
+                    //check if we aren't signed in
+                    if (!userList.checkLoggedIn(username)) {
+                        //if we aren't signed in, send a failure message
+                        out.println("FAILURE");
+                        out.println("User not logged in");
+                    } else {
+                        //send the message to the public feed
+                        MessageList.addMessage(message, username, hashtag);
+                        out.println("SUCCESS");
+                    }
+                } else {
+                    //if the user does not exist, send a failure message
+                    out.println("FAILURE");
+                    out.println("User does not exist");
+                }
             }
         } catch (IOException e) {
             // If an I/O error occurs, print a message, then attempt to reconnect
@@ -251,6 +303,15 @@ public class Driver {
 
         //create an admin user, with username "admin" and pass "admin"
         userList.register("admin", "admin", "admin");
+
+        //create a test message, with sender "test" and message "test"
+        MessageList.addMessage("test", "test2", "hashtag");
+        MessageList.addMessage("test2", "test2", "hashtag2");
+        MessageList.addMessage("test3", "test3", "hashtag3");
+
+        //have test follow test2
+        userList.addFollowing("test", "test2");
+        userList.addFollower("test2", "test");
 
         new Driver(2001, userList);
 

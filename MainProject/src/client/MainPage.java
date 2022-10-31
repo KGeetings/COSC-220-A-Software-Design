@@ -210,6 +210,11 @@ public class MainPage extends javax.swing.JFrame {
         jScrollPane1.setViewportView(homeFeedTextArea);
 
         refreshFeedButton.setText("Refresh Feed (go to most recent)");
+        refreshFeedButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshFeedButtonActionPerformed(evt);
+            }
+        });
 
         feedTextLabel.setText("See what others are saying:");
 
@@ -630,6 +635,52 @@ public class MainPage extends javax.swing.JFrame {
             javax.swing.JOptionPane.showMessageDialog(this, "Please select a user to unfollow");
         }
     }//GEN-LAST:event_unfollowThemButtonActionPerformed
+
+    private void refreshFeedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshFeedButtonActionPerformed
+        // Clear the feedTextArea of all text, then update the feed
+        homeFeedTextArea.setText("");
+        updateFeed();
+    }//GEN-LAST:event_refreshFeedButtonActionPerformed
+
+    private void updateFeed() {
+        try (Socket connector = new Socket("localhost", 2001)) {
+            InputStream inStream = connector.getInputStream();
+            OutputStream outStream = connector.getOutputStream();
+
+            try (Scanner in = new Scanner(inStream)) {
+                PrintWriter out = new PrintWriter(new OutputStreamWriter(outStream), true);
+
+                // Send "GETPUBLICFEED" to server
+                out.println("GETPUBLICFEED");
+
+                // Send username to server
+                out.println(Client.username);
+                
+                // Receive response from server
+                String response = in.nextLine();
+
+                // If response is "success", then get the list of users we are following
+                if (response.equals("SUCCESS")) {
+                    // Get the feed from the server
+                    String feed = in.nextLine();
+
+                    // Split the feed into an array
+                    String[] feedArray = feed.split("BREAKLINE0");
+
+                    // Loop through the array and add each tweet to the homeFeedTextArea
+                    for (String tweet : feedArray) {
+                        homeFeedTextArea.append(tweet + "\n");
+                    }
+                } if (response.equals("FAILURE")) {
+                    // Get next line from server and display it as a popup error
+                    String error = in.nextLine();
+                    javax.swing.JOptionPane.showMessageDialog(this, error);
+                }
+            }
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
+    }
 
     /**
      * @param args the command line arguments
