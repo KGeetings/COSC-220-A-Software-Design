@@ -244,6 +244,14 @@ public class Driver {
         //create a UserList object
         UserList userList = new UserList();
 
+        //create a test user, with username "test" and pass "test"
+        userList.register("test", "test", "testt");
+        userList.register("test2", "test2", "testt2");
+        userList.register("test3", "test3", "testt3");
+
+        //create an admin user, with username "admin" and pass "admin"
+        userList.register("admin", "admin", "admin");
+
         new Driver(2001, userList);
 
         //continue to rerun the driver if the connection is lost
