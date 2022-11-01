@@ -116,15 +116,15 @@ public class UserList {
     public static boolean checkFollowing(String username, String followee) {
         //check if the user is following the followee
         //return true if the user is following the followee, false if not
-        System.out.println("List: " + userList.get(username).getFollowing());
-        System.out.println(username + " " + followee);
-        if (userList.get(username).getFollowing().contains(followee)) {
-            System.out.println(true);
-            return true;
-        } else {
-            System.out.println(false);
-            return false;
+        //split the list of following into an array, then loop through the array
+
+        String[] following = userList.get(username).getFollowing().split(",");
+        for (int i = 0; i < following.length; i++) {
+            if (following[i].equals(followee)) {
+                return true;
+            }
         }
+        return false;
     }
 
     //get user's last read message

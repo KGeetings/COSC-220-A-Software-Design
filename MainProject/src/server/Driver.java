@@ -204,7 +204,6 @@ public class Driver {
             else if (line.equals("GETFOLLOWING")) {
                 //get username
                 String username = in.nextLine();
-                System.out.println(username);
 
                 //check if the user exists
                 if (userList.userExists(username)) {
@@ -214,7 +213,6 @@ public class Driver {
                     //send the list of users the user is following
                     out.println("SUCCESS");
                     out.println(list);
-                    System.out.println(list);
                 } else {
                     //if the user does not exist, send a failure message
                     out.println("FAILURE");
@@ -224,7 +222,6 @@ public class Driver {
             else if (line.equals("GETFOLLOWERS")) {
                 //get username
                 String username = in.nextLine();
-                System.out.println(username);
 
                 //check if the user exists
                 if (userList.userExists(username)) {
@@ -234,7 +231,6 @@ public class Driver {
                     //send the list of users following the user
                     out.println("SUCCESS");
                     out.println(list);
-                    System.out.println(list);
                 } else {
                     //if the user does not exist, send a failure message
                     out.println("FAILURE");
@@ -273,12 +269,12 @@ public class Driver {
             else if (line.equals("SENDPUBLICMESSAGE")) {
                 //get username, message, and timestamp
                 String username = in.nextLine();
-                String message = in.nextLine();
                 String hashtag = in.nextLine();
+                String message = in.nextLine();
                 System.out.println(username);
 
                 // Check if message is empty, or if it is too long, or if it contains "BREAKLINE000"
-                if (message.equals("") || message.length() > 140 || message.contains("BREAKLINE000")) {
+                if (message.equals("") || message.length() > 140 || message.contains("BREAKLINE000") || hashtag.contains("BREAKLINE000") || hashtag.contains(" ") || hashtag.contains("#") || hashtag.contains("@") || message.contains("/n")) {
                     out.println("FAILURE");
                     out.println("Message is either empty, too long, or contains unallowed characters");
                 } else {
@@ -364,7 +360,7 @@ public class Driver {
         userList.register("test2", "test2", "testt2");
         userList.register("test3", "test3", "testt3");
 
-        //create a test message, with sender "test" and message "test"
+        //create a test message, with sender "test" and message
         MessageList.addMessage("testMessage", "test2", "hashtag");
         MessageList.addMessage("test2Message", "test2", "hashtag2");
         MessageList.addMessage("test3Message", "test3", "hashtag3");

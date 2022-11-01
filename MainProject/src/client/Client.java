@@ -22,6 +22,7 @@ public class Client {
 
     //keep track of the messages sent by the user for this session
     public static ArrayList<String> messages = new ArrayList<String>();
+    public static ArrayList<String> hashtags = new ArrayList<String>();
 
     public static void main(String[] args) {
         // Run StartupWindow.java form

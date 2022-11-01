@@ -664,12 +664,14 @@ public class MainPage extends javax.swing.JFrame {
         
         // Grabs the local list of messages we have sent
         ArrayList<String> messages = Client.messages;
+        ArrayList<String> hashtags = Client.hashtags;
         
-        // Loop through the list of messages we have sent and add each message to the userSendMessagesTextArea
-        for (String message : messages) {
-            mySentMessagesTextArea.append(message + "\n");
+        // Loop through the list of messages (and hashtags) we have sent and add each message to the userSendMessagesTextArea
+        for (int i = 0; i < messages.size(); i++) {
+            mySentMessagesTextArea.append("Message #" + i + " says: " + messages.get(i) + "\t#" + hashtags.get(i) + "\n\n");
         }
     }
+
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         // Get the search hashtag from the searchHashtagTextField and store it in a variable
         String hashtag = searchHashtagTextField.getText();

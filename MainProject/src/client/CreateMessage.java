@@ -61,20 +61,20 @@ public class CreateMessage extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1)
+                    .addComponent(hashtagTextArea, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(sendMessageButton))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(jScrollPane1)
                             .addComponent(hashtagLabel)
-                            .addComponent(messageLabel)
-                            .addComponent(hashtagTextArea))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addComponent(messageLabel))
+                        .addGap(0, 192, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -85,8 +85,8 @@ public class CreateMessage extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(messageLabel)
                 .addGap(3, 3, 3)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(hashtagLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(hashtagTextArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -104,6 +104,11 @@ public class CreateMessage extends javax.swing.JDialog {
         String message = messageTextArea.getText();
         String hashtag = hashtagTextArea.getText();
 
+        // check if message has new line characters, if so, replace with space
+        if (message.contains("\n")) {
+            message = message.replace("\n", " ");
+        }
+
         try (Socket connector = new Socket("localhost", 2001)) {
             InputStream inStream = connector.getInputStream();
             OutputStream outStream = connector.getOutputStream();
@@ -114,18 +119,19 @@ public class CreateMessage extends javax.swing.JDialog {
                 // Send "SENDPUBLICMESSAGE" to server
                 out.println("SENDPUBLICMESSAGE");
 
-                // Send username, message, and hashtag to server
+                // Send username, hashtag, then message to server
                 out.println(username);
-                out.println(message);
                 out.println(hashtag);
+                out.println(message);
 
                 // Receive response from server
                 String response = in.nextLine();
 
                 // If response is "SUCCESS", then message was sent successfully
                 if (response.equals("SUCCESS")) {
-                    // Add this message to the client's message list
+                    // Add this message to the client's message list, as well as the hashtag
                     Client.messages.add(message);
+                    Client.hashtags.add(hashtag);
                     // Close dialog
                     this.dispose();
                 }
