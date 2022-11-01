@@ -85,6 +85,9 @@ public class MainPage extends javax.swing.JFrame {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
             }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
         });
 
         jTabbedPane1.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -725,14 +728,20 @@ public class MainPage extends javax.swing.JFrame {
             updateFollowingList();
             updateUserSendMessages();
         } else if (jTabbedPane1.getSelectedIndex() == 1) {
-            // If the tab we are on is the "Home" tab, then update the feed
-            updateFeed();
+            // If the tab we are on is the "Home" tab, then update the feed (actually don't need to do this, but just in case)
         } else if (jTabbedPane1.getSelectedIndex() == 2) {
             // If the tab we are on is the "Search" tab, then do nothing
         } else if (jTabbedPane1.getSelectedIndex() == 3) {
             // If the tab we are on is the "DM" tab, then update the list of messages we have received
         }
     }//GEN-LAST:event_jTabbedPane1StateChanged
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // When the window is opened, update the list of users we are following, as well as the list of messages we have sent, and the feed
+        updateFollowingList();
+        updateUserSendMessages();
+        updateFeed();
+    }//GEN-LAST:event_formWindowOpened
 
     private void updateFeed() {
         try (Socket connector = new Socket("localhost", 2001)) {
