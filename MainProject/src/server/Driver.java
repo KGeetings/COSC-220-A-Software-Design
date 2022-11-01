@@ -368,6 +368,7 @@ public class Driver {
         MessageList.addMessage("testMessage", "test2", "hashtag");
         MessageList.addMessage("test2Message", "test2", "hashtag2");
         MessageList.addMessage("test3Message", "test3", "hashtag3");
+        MessageList.addMessage("test1Message", "test", "hashtag1");
 
         //have test follow test2
         userList.addFollowing("test", "test2");
