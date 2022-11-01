@@ -18,6 +18,7 @@ public class AdminPanel extends javax.swing.JFrame {
      */
     public AdminPanel() {
         initComponents();
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
     }
 
     /**
@@ -60,6 +61,9 @@ public class AdminPanel extends javax.swing.JFrame {
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
             }
         });
 
@@ -392,6 +396,10 @@ public class AdminPanel extends javax.swing.JFrame {
         StartupWindow startup = new StartupWindow();
         startup.setVisible(true);
     }//GEN-LAST:event_formWindowClosed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        this.dispose();
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments
