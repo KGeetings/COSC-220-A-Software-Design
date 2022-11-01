@@ -4,6 +4,9 @@
  */
 package client;
 
+import java.io.*;
+import java.net.*;
+import java.util.Scanner;
 /**
  *
  * @author Kenyon
@@ -27,7 +30,7 @@ public class AdminPanel extends javax.swing.JFrame {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        logOutButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -36,6 +39,7 @@ public class AdminPanel extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jLabel6 = new javax.swing.JLabel();
+        shutdownServerButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
@@ -54,7 +58,12 @@ public class AdminPanel extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1.setText("Log Out");
+        logOutButton.setText("Log Out");
+        logOutButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logOutButtonActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setText("Stats for nerds:");
@@ -73,13 +82,20 @@ public class AdminPanel extends javax.swing.JFrame {
 
         jLabel6.setText("Other day's message's sent count:");
 
+        shutdownServerButton.setText("Shutdown Server");
+        shutdownServerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                shutdownServerButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton1))
+                .addComponent(logOutButton))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
@@ -93,9 +109,12 @@ public class AdminPanel extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
-                    .addComponent(jLabel6)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 212, Short.MAX_VALUE))
+                    .addComponent(jLabel6))
+                .addGap(0, 352, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(shutdownServerButton))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -113,9 +132,14 @@ public class AdminPanel extends javax.swing.JFrame {
                 .addGap(32, 32, 32)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(logOutButton))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(shutdownServerButton)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
 
         jTabbedPane1.addTab("Admin Info", jPanel1);
@@ -241,6 +265,84 @@ public class AdminPanel extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void shutdownServerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shutdownServerButtonActionPerformed
+        try (Socket connector = new Socket("localhost", 2001)) {
+            InputStream inStream = connector.getInputStream();
+            OutputStream outStream = connector.getOutputStream();
+
+            try (Scanner in = new Scanner(inStream)) {
+                PrintWriter out = new PrintWriter(new OutputStreamWriter(outStream), true);
+
+                // Send "SHUTDOWN" to server
+                out.println("SHUTDOWN");
+
+                // Send username to server
+                out.println(Client.username);
+
+                // Send password to server
+                out.println(Client.password);
+                
+                // Receive response from server
+                String response = in.nextLine();
+                            
+                // if response is "SUCCESS", then we can send a popup message
+                if (response.equals("SUCCESS")) {
+                    System.out.println("Server shutdown successful");
+                    javax.swing.JOptionPane.showMessageDialog(this, "Server shutdown successful");
+                } if (response.equals("FAILURE")) {
+                    // Get next line from server and display it as a popup error
+                    String error = in.nextLine();
+                    javax.swing.JOptionPane.showMessageDialog(this, error);
+                }
+            }
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
+    }//GEN-LAST:event_shutdownServerButtonActionPerformed
+
+    private void logOutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOutButtonActionPerformed
+        // Check if we have already logged out, if not, log out
+        if (Client.username != null) {
+            try (Socket connector = new Socket("localhost", 2001)) {
+                InputStream inStream = connector.getInputStream();
+                OutputStream outStream = connector.getOutputStream();
+
+                try (Scanner in = new Scanner(inStream)) {
+                    PrintWriter out = new PrintWriter(new OutputStreamWriter(outStream), true);
+
+                    // Send "REGISTER" to server
+                    out.println("LOGOUT");
+
+                    // Check if username is saved in Client.java
+                    if (Client.username != null) {
+                        // Send username to server
+                        out.println(Client.username);
+                    } else {
+                        // Popup error message
+                        javax.swing.JOptionPane.showMessageDialog(this, "How did you get here?");
+                    }
+                    
+                    // Receive response from server
+                    String response = in.nextLine();
+                                
+                    // If response is "success", then close the window and return to login page
+                    if (response.equals("SUCCESS")) {
+                        this.dispose();
+                    } if (response.equals("FAILURE")) {
+                        // Get next line from server and display it as a popup error
+                        String error = in.nextLine();
+                        javax.swing.JOptionPane.showMessageDialog(this, error);
+                    }
+                }
+            } catch (IOException ex) {
+                System.out.println(ex);
+            }
+        }
+        // Open up the Startup window
+        StartupWindow startup = new StartupWindow();
+        startup.setVisible(true);
+    }//GEN-LAST:event_logOutButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -277,7 +379,6 @@ public class AdminPanel extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -303,5 +404,7 @@ public class AdminPanel extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
+    private javax.swing.JButton logOutButton;
+    private javax.swing.JButton shutdownServerButton;
     // End of variables declaration//GEN-END:variables
 }

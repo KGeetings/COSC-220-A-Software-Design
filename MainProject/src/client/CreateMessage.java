@@ -4,6 +4,9 @@
  */
 package client;
 
+import java.io.*;
+import java.net.*;
+import java.util.Scanner;
 /**
  *
  * @author Kenyon
@@ -27,27 +30,32 @@ public class CreateMessage extends javax.swing.JDialog {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        sendMessageButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        messageTextArea = new javax.swing.JTextArea();
+        hashtagTextArea = new javax.swing.JTextField();
+        hashtagLabel = new javax.swing.JLabel();
+        messageLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setText("Say something brilliant:");
 
-        jButton1.setText("Send");
+        sendMessageButton.setText("Send");
+        sendMessageButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sendMessageButtonActionPerformed(evt);
+            }
+        });
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        messageTextArea.setColumns(20);
+        messageTextArea.setRows(5);
+        jScrollPane1.setViewportView(messageTextArea);
 
-        jLabel2.setText("Hashtag:");
+        hashtagLabel.setText("Hashtag:");
 
-        jLabel3.setText("Message:");
+        messageLabel.setText("Message:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -58,14 +66,14 @@ public class CreateMessage extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1))
+                        .addComponent(sendMessageButton))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel1)
                             .addComponent(jScrollPane1)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jTextField1))
+                            .addComponent(hashtagLabel)
+                            .addComponent(messageLabel)
+                            .addComponent(hashtagTextArea))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -75,20 +83,63 @@ public class CreateMessage extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
+                .addComponent(messageLabel)
                 .addGap(3, 3, 3)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23)
-                .addComponent(jLabel2)
+                .addComponent(hashtagLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(hashtagTextArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(sendMessageButton)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void sendMessageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendMessageButtonActionPerformed
+        // Send message to server
+        String username = Client.username;
+        String message = messageTextArea.getText();
+        String hashtag = hashtagTextArea.getText();
+
+        try (Socket connector = new Socket("localhost", 2001)) {
+            InputStream inStream = connector.getInputStream();
+            OutputStream outStream = connector.getOutputStream();
+
+            try (Scanner in = new Scanner(inStream)) {
+                PrintWriter out = new PrintWriter(new OutputStreamWriter(outStream), true);
+
+                // Send "SENDPUBLICMESSAGE" to server
+                out.println("SENDPUBLICMESSAGE");
+
+                // Send username, message, and hashtag to server
+                out.println(username);
+                out.println(message);
+                out.println(hashtag);
+
+                // Receive response from server
+                String response = in.nextLine();
+
+                // If response is "SUCCESS", then message was sent successfully
+                if (response.equals("SUCCESS")) {
+                    // Add this message to the client's message list
+                    Client.messages.add(message);
+                    // Close dialog
+                    this.dispose();
+                }
+                // If response is "FAILURE", then message was not sent successfully
+                else if (response.equals("FAILURE")) {
+                    // Get next line from server and display it as a popup error
+                    String error = in.nextLine();
+                    javax.swing.JOptionPane.showMessageDialog(this, error);
+                }
+            }
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
+    }//GEN-LAST:event_sendMessageButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -133,12 +184,12 @@ public class CreateMessage extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel hashtagLabel;
+    private javax.swing.JTextField hashtagTextArea;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel messageLabel;
+    private javax.swing.JTextArea messageTextArea;
+    private javax.swing.JButton sendMessageButton;
     // End of variables declaration//GEN-END:variables
 }

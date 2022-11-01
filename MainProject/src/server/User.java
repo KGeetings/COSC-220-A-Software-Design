@@ -102,4 +102,13 @@ public class User {
     public void setLastRead(int lastRead2) {
         lastRead = lastRead2;
     }
+
+    // If username is "admin" and password is "admin", return true
+    public Object getAdmin() {
+        if (username.equals("admin")) {
+            return "true";
+        } else {
+            return "false";
+        }
+    }
 }

@@ -50,10 +50,34 @@ public class MessageList {
         String feed = "";
         for (int i = lastRead; i < messageList.size(); i++) {
             if (UserList.checkFollowing(username, messageList.get(i).getUsername())) {
-                feed += messageList.get(i).getMessage() + " \t#" + messageList.get(i).getHashtag() + " \tid:" + messageList.get(i).getTimestamp() + " \tfrom:" + messageList.get(i).getUsername() + "BREAKLINE0";
+                feed += messageList.get(i).getMessage() + " \t#" + messageList.get(i).getHashtag() + " \tid:" + messageList.get(i).getTimestamp() + " \tfrom:" + messageList.get(i).getUsername() + "BREAKLINE000";
             }
         }
+        // set the user's last read message to the last message in the list
+        UserList.setLastRead(username, messageList.size());
         return feed;
+    }
+
+    public static boolean hashtagExists(String hashtag) {
+        //check if the hashtag exists
+        //return true if the hashtag exists, false if not
+        for (int i = 0; i < messageList.size(); i++) {
+            if (messageList.get(i).getHashtag().equals(hashtag)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static String getHashtagMessages(String hashtag) {
+        //get all messages with the given hashtag
+        String messages = "";
+        for (int i = 0; i < messageList.size(); i++) {
+            if (messageList.get(i).getHashtag().equals(hashtag)) {
+                messages += messageList.get(i).getMessage() + " \t#" + messageList.get(i).getHashtag() + " \tid:" + messageList.get(i).getTimestamp() + " \tfrom:" + messageList.get(i).getUsername() + "BREAKLINE000";
+            }
+        }
+        return messages;
     }
 
 }

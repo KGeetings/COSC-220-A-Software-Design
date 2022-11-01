@@ -4,6 +4,8 @@
  */
 package client;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Kenyon
@@ -17,6 +19,9 @@ public class Client {
     public static String username;
     public static String password;
     public static String ipAddress;
+
+    //keep track of the messages sent by the user for this session
+    public static ArrayList<String> messages = new ArrayList<String>();
 
     public static void main(String[] args) {
         // Run StartupWindow.java form

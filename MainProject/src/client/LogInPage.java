@@ -6,6 +6,7 @@ package client;
 
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -133,9 +134,19 @@ public class LogInPage extends javax.swing.JDialog {
                     Client.username = usernameTextField.getText();
                     Client.password = userPasswordField.getText();
                     Client.ipAddress = "localhost";
+                    Client.messages = new ArrayList<>();
                     this.dispose();
                     sw1.dispose();
                     new MainPage().setVisible(true);
+                } if (response.equals("ADMIN")) {
+                    //store the username and password and ipAddress to Client.java
+                    Client.username = usernameTextField.getText();
+                    Client.password = userPasswordField.getText();
+                    Client.ipAddress = "localhost";
+                    Client.messages = new ArrayList<>();
+                    this.dispose();
+                    sw1.dispose();
+                    new AdminPanel().setVisible(true);
                 } if (response.equals("FAILURE")) {
                     // Get next line from server and display it as a popup error
                     String error = in.nextLine();

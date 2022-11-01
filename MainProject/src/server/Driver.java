@@ -46,7 +46,12 @@ public class Driver {
                         } else {
                             //if the user is not logged in, log them in
                             userList.login(username, password, ipAddress);
-                            out.println("SUCCESS");
+                            //check if user is admin, if so send ADMIN, if not send SUCCESS
+                            if (UserList.isAdmin(username, password)) {
+                                out.println("ADMIN");
+                            } else {
+                                out.println("SUCCESS");
+                            }
                         }
                     } else {
                         //if the password is incorrect, send a failure message
@@ -199,6 +204,7 @@ public class Driver {
             else if (line.equals("GETFOLLOWING")) {
                 //get username
                 String username = in.nextLine();
+                System.out.println(username);
 
                 //check if the user exists
                 if (userList.userExists(username)) {
@@ -218,6 +224,7 @@ public class Driver {
             else if (line.equals("GETFOLLOWERS")) {
                 //get username
                 String username = in.nextLine();
+                System.out.println(username);
 
                 //check if the user exists
                 if (userList.userExists(username)) {
@@ -235,8 +242,9 @@ public class Driver {
                 }
             } //Client receives the public feed from lastread
             else if (line.equals("GETPUBLICFEED")) {
-                //get username and lastread
+                //get username
                 String username = in.nextLine();
+                System.out.println(username);
 
                 //check if the user exists
                 if (userList.userExists(username)) {
@@ -267,18 +275,70 @@ public class Driver {
                 String username = in.nextLine();
                 String message = in.nextLine();
                 String hashtag = in.nextLine();
+                System.out.println(username);
+
+                // Check if message is empty, or if it is too long, or if it contains "BREAKLINE000"
+                if (message.equals("") || message.length() > 140 || message.contains("BREAKLINE000")) {
+                    out.println("FAILURE");
+                    out.println("Message is either empty, too long, or contains unallowed characters");
+                } else {
+                    //check if the user exists
+                    if (userList.userExists(username)) {
+                        //check if we aren't signed in
+                        if (!userList.checkLoggedIn(username)) {
+                            //if we aren't signed in, send a failure message
+                            out.println("FAILURE");
+                            out.println("User not logged in");
+                        } else {
+                            //send the message to the public feed
+                            MessageList.addMessage(message, username, hashtag);
+                            out.println("SUCCESS");
+                        }
+                    } else {
+                        //if the user does not exist, send a failure message
+                        out.println("FAILURE");
+                        out.println("User does not exist");
+                    }
+                }
+            } //Client sends a hashtag to search through the entire messages list for
+            else if (line.equals("SEARCHHASHTAG")) {
+                //get hashtag
+                String hashtag = in.nextLine();
+                System.out.println(hashtag);
+
+                //check if the hashtag exists
+                if (MessageList.hashtagExists(hashtag)) {
+                    //get the list of messages with the hashtag
+                    String list = MessageList.getHashtagMessages(hashtag);
+
+                    //send the list of messages with the hashtag
+                    out.println("SUCCESS");
+                    out.println(list);
+                    System.out.println(list);
+                } else {
+                    //if the hashtag does not exist, send a failure message
+                    out.println("FAILURE");
+                    out.println("Hashtag does not exist");
+                }
+            } //Admin sends command "SHUTDOWN"
+            else if (line.equals("SHUTDOWN")) {
+                //get username
+                String username = in.nextLine();
+                String password = in.nextLine();
+                System.out.println(username);
 
                 //check if the user exists
                 if (userList.userExists(username)) {
-                    //check if we aren't signed in
-                    if (!userList.checkLoggedIn(username)) {
-                        //if we aren't signed in, send a failure message
-                        out.println("FAILURE");
-                        out.println("User not logged in");
-                    } else {
-                        //send the message to the public feed
-                        MessageList.addMessage(message, username, hashtag);
+                    //check if the user is an admin
+                    if (UserList.isAdmin(username, password)) {
+                        //if the user is an admin, shut down the server
                         out.println("SUCCESS");
+                        System.out.println("Server shutting down");
+                        System.exit(0);
+                    } else {
+                        //if the user is not an admin, send a failure message
+                        out.println("FAILURE");
+                        out.println("User is not an admin");
                     }
                 } else {
                     //if the user does not exist, send a failure message
@@ -296,18 +356,18 @@ public class Driver {
         //create a UserList object
         UserList userList = new UserList();
 
+        //create an admin user, with username "admin" and pass "admin"
+        userList.register("admin", "admin", "admin");
+
         //create a test user, with username "test" and pass "test"
         userList.register("test", "test", "testt");
         userList.register("test2", "test2", "testt2");
         userList.register("test3", "test3", "testt3");
 
-        //create an admin user, with username "admin" and pass "admin"
-        userList.register("admin", "admin", "admin");
-
         //create a test message, with sender "test" and message "test"
-        MessageList.addMessage("test", "test2", "hashtag");
-        MessageList.addMessage("test2", "test2", "hashtag2");
-        MessageList.addMessage("test3", "test3", "hashtag3");
+        MessageList.addMessage("testMessage", "test2", "hashtag");
+        MessageList.addMessage("test2Message", "test2", "hashtag2");
+        MessageList.addMessage("test3Message", "test3", "hashtag3");
 
         //have test follow test2
         userList.addFollowing("test", "test2");

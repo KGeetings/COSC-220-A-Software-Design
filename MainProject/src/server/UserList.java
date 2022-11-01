@@ -128,4 +128,18 @@ public class UserList {
         return userList.get(username).getLastRead();
     }
 
+    //set user's last read message
+    public static void setLastRead(String username, int lastRead) {
+        userList.get(username).setLastRead(lastRead);
+    }
+
+    //check if user is an admin
+    public static boolean isAdmin(String username, String password) {
+        if (userList.get(username).getPassword().equals(password) && userList.get(username).getAdmin().equals("true")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

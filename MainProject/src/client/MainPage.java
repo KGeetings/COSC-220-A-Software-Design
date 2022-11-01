@@ -6,6 +6,7 @@ package client;
 
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -32,7 +33,7 @@ public class MainPage extends javax.swing.JFrame {
     private void initComponents() {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel2 = new javax.swing.JPanel();
+        myProfilePanel = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         mySentMessagesTextArea = new javax.swing.JTextArea();
         mySentMessagesLabel = new javax.swing.JLabel();
@@ -48,7 +49,7 @@ public class MainPage extends javax.swing.JFrame {
         usernameUnfollowThemLabel = new javax.swing.JLabel();
         unfollowThemTextField = new javax.swing.JTextField();
         unfollowThemButton = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
+        homePanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         homeFeedTextArea = new javax.swing.JTextArea();
         refreshFeedButton = new javax.swing.JButton();
@@ -58,13 +59,13 @@ public class MainPage extends javax.swing.JFrame {
         peopleOnlineLabel = new javax.swing.JLabel();
         jScrollPane7 = new javax.swing.JScrollPane();
         peopleOnlineTextArea = new javax.swing.JTextArea();
-        jPanel3 = new javax.swing.JPanel();
+        searchPanel = new javax.swing.JPanel();
         searchHashtagLabel = new javax.swing.JLabel();
         searchHashtagTextField = new javax.swing.JTextField();
         searchButton = new javax.swing.JButton();
         jScrollPane6 = new javax.swing.JScrollPane();
         hashtagFeedTextArea = new javax.swing.JTextArea();
-        jPanel4 = new javax.swing.JPanel();
+        dmPanel = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         receivePrivateMessageTextArea = new javax.swing.JTextArea();
         receivePrivateMessageLabel = new javax.swing.JLabel();
@@ -83,6 +84,12 @@ public class MainPage extends javax.swing.JFrame {
             }
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
+            }
+        });
+
+        jTabbedPane1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jTabbedPane1StateChanged(evt);
             }
         });
 
@@ -127,65 +134,65 @@ public class MainPage extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout myProfilePanelLayout = new javax.swing.GroupLayout(myProfilePanel);
+        myProfilePanel.setLayout(myProfilePanelLayout);
+        myProfilePanelLayout.setHorizontalGroup(
+            myProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(myProfilePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(myProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(myProfilePanelLayout.createSequentialGroup()
+                        .addGroup(myProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(mySentMessagesLabel))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(myProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(myProfilePanelLayout.createSequentialGroup()
                                 .addComponent(peopleFollowingLabel)
                                 .addGap(82, 82, 82)
                                 .addComponent(followThemLabel)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addGroup(myProfilePanelLayout.createSequentialGroup()
                                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(myProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(myProfilePanelLayout.createSequentialGroup()
                                         .addComponent(usernameFollowThemLabel)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(followThemTextField))
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(myProfilePanelLayout.createSequentialGroup()
+                                        .addGroup(myProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(unfollowThemLabel)
-                                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                            .addGroup(myProfilePanelLayout.createSequentialGroup()
                                                 .addComponent(usernameUnfollowThemLabel)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                                 .addComponent(unfollowThemTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                         .addGap(0, 0, Short.MAX_VALUE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, myProfilePanelLayout.createSequentialGroup()
                                         .addGap(0, 0, Short.MAX_VALUE)
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(myProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(followThemButton, javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addComponent(unfollowThemButton, javax.swing.GroupLayout.Alignment.TRAILING)))))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, myProfilePanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(logOutButton)))
                 .addContainerGap())
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+        myProfilePanelLayout.setVerticalGroup(
+            myProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, myProfilePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(myProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(mySentMessagesLabel)
                     .addComponent(peopleFollowingLabel)
                     .addComponent(followThemLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(myProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(myProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
                         .addComponent(jScrollPane2))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addGroup(myProfilePanelLayout.createSequentialGroup()
+                        .addGroup(myProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(usernameFollowThemLabel)
                             .addComponent(followThemTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -193,7 +200,7 @@ public class MainPage extends javax.swing.JFrame {
                         .addGap(17, 17, 17)
                         .addComponent(unfollowThemLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(myProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(usernameUnfollowThemLabel)
                             .addComponent(unfollowThemTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -203,7 +210,7 @@ public class MainPage extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("My Profile", jPanel2);
+        jTabbedPane1.addTab("My Profile", myProfilePanel);
 
         homeFeedTextArea.setColumns(20);
         homeFeedTextArea.setRows(5);
@@ -233,68 +240,73 @@ public class MainPage extends javax.swing.JFrame {
         peopleOnlineTextArea.setRows(5);
         jScrollPane7.setViewportView(peopleOnlineTextArea);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout homePanelLayout = new javax.swing.GroupLayout(homePanel);
+        homePanel.setLayout(homePanelLayout);
+        homePanelLayout.setHorizontalGroup(
+            homePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(homePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(homePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(homePanelLayout.createSequentialGroup()
                         .addComponent(joinConversationLabel)
                         .addGap(18, 18, 18)
                         .addComponent(createMesssageButton))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(homePanelLayout.createSequentialGroup()
+                        .addGroup(homePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(homePanelLayout.createSequentialGroup()
                                 .addComponent(feedTextLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(refreshFeedButton))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 666, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(homePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(peopleOnlineLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jScrollPane7))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        homePanelLayout.setVerticalGroup(
+            homePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(homePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(homePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(refreshFeedButton)
                     .addComponent(feedTextLabel)
                     .addComponent(peopleOnlineLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(homePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
                     .addComponent(jScrollPane1))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(homePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(joinConversationLabel)
                     .addComponent(createMesssageButton))
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Home", jPanel1);
+        jTabbedPane1.addTab("Home", homePanel);
 
         searchHashtagLabel.setText("Search for a hashtag:");
 
         searchButton.setText("Search");
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchButtonActionPerformed(evt);
+            }
+        });
 
         hashtagFeedTextArea.setColumns(20);
         hashtagFeedTextArea.setRows(5);
         jScrollPane6.setViewportView(hashtagFeedTextArea);
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        javax.swing.GroupLayout searchPanelLayout = new javax.swing.GroupLayout(searchPanel);
+        searchPanel.setLayout(searchPanelLayout);
+        searchPanelLayout.setHorizontalGroup(
+            searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(searchPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane6)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGroup(searchPanelLayout.createSequentialGroup()
                         .addComponent(searchHashtagLabel)
                         .addGap(18, 18, 18)
                         .addComponent(searchHashtagTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -303,11 +315,11 @@ public class MainPage extends javax.swing.JFrame {
                         .addGap(0, 484, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        searchPanelLayout.setVerticalGroup(
+            searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(searchPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(searchHashtagLabel)
                     .addComponent(searchHashtagTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(searchButton))
@@ -316,7 +328,7 @@ public class MainPage extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Search", jPanel3);
+        jTabbedPane1.addTab("Search", searchPanel);
 
         receivePrivateMessageTextArea.setColumns(20);
         receivePrivateMessageTextArea.setRows(5);
@@ -336,44 +348,44 @@ public class MainPage extends javax.swing.JFrame {
 
         goWhoToMessageButton.setText("Go");
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        javax.swing.GroupLayout dmPanelLayout = new javax.swing.GroupLayout(dmPanel);
+        dmPanel.setLayout(dmPanelLayout);
+        dmPanelLayout.setHorizontalGroup(
+            dmPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dmPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(dmPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(sendPrivateMessageLabel)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(dmPanelLayout.createSequentialGroup()
+                        .addGroup(dmPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(dmPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(sendPrivateMessageButton)
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(dmPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE)
                                     .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING)))
                             .addComponent(receivePrivateMessageLabel))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(dmPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(dmPanelLayout.createSequentialGroup()
                                 .addComponent(whoToMessageLabel)
                                 .addGap(0, 64, Short.MAX_VALUE))
                             .addComponent(usernameToMessageTextField)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dmPanelLayout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(goWhoToMessageButton)))))
                 .addContainerGap())
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        dmPanelLayout.setVerticalGroup(
+            dmPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dmPanelLayout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(dmPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(receivePrivateMessageLabel)
                     .addComponent(whoToMessageLabel))
                 .addGap(11, 11, 11)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(dmPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
+                    .addGroup(dmPanelLayout.createSequentialGroup()
                         .addComponent(usernameToMessageTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(goWhoToMessageButton)))
@@ -386,7 +398,7 @@ public class MainPage extends javax.swing.JFrame {
                 .addContainerGap(13, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("DM", jPanel4);
+        jTabbedPane1.addTab("DM", dmPanel);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -447,6 +459,9 @@ public class MainPage extends javax.swing.JFrame {
                 }
                 //Set Client.username to null
                 Client.username = null;
+
+                //Set messages to null
+                Client.messages = null;
             }
         } catch (IOException ex) {
             System.out.println(ex);
@@ -637,10 +652,87 @@ public class MainPage extends javax.swing.JFrame {
     }//GEN-LAST:event_unfollowThemButtonActionPerformed
 
     private void refreshFeedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshFeedButtonActionPerformed
-        // Clear the feedTextArea of all text, then update the feed
-        homeFeedTextArea.setText("");
         updateFeed();
     }//GEN-LAST:event_refreshFeedButtonActionPerformed
+
+    private void updateUserSendMessages() {
+        // Clear the userSendMessagesTextArea of all text
+        mySentMessagesTextArea.setText("");
+        
+        // Grabs the local list of messages we have sent
+        ArrayList<String> messages = Client.messages;
+        
+        // Loop through the list of messages we have sent and add each message to the userSendMessagesTextArea
+        for (String message : messages) {
+            mySentMessagesTextArea.append(message + "\n");
+        }
+    }
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+        // Get the search hashtag from the searchHashtagTextField and store it in a variable
+        String hashtag = searchHashtagTextField.getText();
+
+        // Check if we have entered a hashtag
+        if (hashtag != null) {
+            // Clear the hashtagFeedTextArea of all text
+            hashtagFeedTextArea.setText("");
+            
+            try (Socket connector = new Socket("localhost", 2001)) {
+                InputStream inStream = connector.getInputStream();
+                OutputStream outStream = connector.getOutputStream();
+
+                try (Scanner in = new Scanner(inStream)) {
+                    PrintWriter out = new PrintWriter(new OutputStreamWriter(outStream), true);
+
+                    // Send "SEARCH" to server
+                    out.println("SEARCHHASHTAG");
+                    
+                    // Send hashtag to server
+                    out.println(hashtag);
+                    
+                    // Receive response from server
+                    String response = in.nextLine();
+
+                    // If response is "success", then get the list of messages that contain the hashtag
+                    if (response.equals("SUCCESS")) {
+                        // Get the String list of messages that contain the hashtag
+                        String messages = in.nextLine();
+
+                        // Split the String list of messages that contain the hashtag into an array
+                        String[] messagesArray = messages.split("BREAKLINE000");
+
+                        // Loop through the array and add each message to the hashtagFeedTextArea
+                        for (String message : messagesArray) {
+                            hashtagFeedTextArea.append(message + "\n");
+                        }
+                    } if (response.equals("FAILURE")) {
+                        // Get next line from server and display it as a popup error
+                        String error = in.nextLine();
+                        javax.swing.JOptionPane.showMessageDialog(this, error);
+                    }
+                }
+            } catch (IOException ex) {
+                System.out.println(ex);
+            }
+        } else {
+            // Popup error message
+            javax.swing.JOptionPane.showMessageDialog(this, "Please enter a hashtag to search");
+        }
+    }//GEN-LAST:event_searchButtonActionPerformed
+
+    private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane1StateChanged
+        // if the tab we are on is the "My Profile" tab, then update the list of users we are following, as well as the list of messages we have sent
+        if (jTabbedPane1.getSelectedIndex() == 0) {
+            updateFollowingList();
+            updateUserSendMessages();
+        } else if (jTabbedPane1.getSelectedIndex() == 1) {
+            // If the tab we are on is the "Home" tab, then update the feed
+            updateFeed();
+        } else if (jTabbedPane1.getSelectedIndex() == 2) {
+            // If the tab we are on is the "Search" tab, then do nothing
+        } else if (jTabbedPane1.getSelectedIndex() == 3) {
+            // If the tab we are on is the "DM" tab, then update the list of messages we have received
+        }
+    }//GEN-LAST:event_jTabbedPane1StateChanged
 
     private void updateFeed() {
         try (Socket connector = new Socket("localhost", 2001)) {
@@ -665,7 +757,7 @@ public class MainPage extends javax.swing.JFrame {
                     String feed = in.nextLine();
 
                     // Split the feed into an array
-                    String[] feedArray = feed.split("BREAKLINE0");
+                    String[] feedArray = feed.split("BREAKLINE000");
 
                     // Loop through the array and add each tweet to the homeFeedTextArea
                     for (String tweet : feedArray) {
@@ -719,6 +811,7 @@ public class MainPage extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton createMesssageButton;
+    private javax.swing.JPanel dmPanel;
     private javax.swing.JLabel feedTextLabel;
     private javax.swing.JButton followThemButton;
     private javax.swing.JLabel followThemLabel;
@@ -726,10 +819,7 @@ public class MainPage extends javax.swing.JFrame {
     private javax.swing.JButton goWhoToMessageButton;
     private javax.swing.JTextArea hashtagFeedTextArea;
     private javax.swing.JTextArea homeFeedTextArea;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel homePanel;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -740,6 +830,7 @@ public class MainPage extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel joinConversationLabel;
     private javax.swing.JButton logOutButton;
+    private javax.swing.JPanel myProfilePanel;
     private javax.swing.JLabel mySentMessagesLabel;
     private javax.swing.JTextArea mySentMessagesTextArea;
     private javax.swing.JLabel peopleFollowingLabel;
@@ -752,6 +843,7 @@ public class MainPage extends javax.swing.JFrame {
     private javax.swing.JButton searchButton;
     private javax.swing.JLabel searchHashtagLabel;
     private javax.swing.JTextField searchHashtagTextField;
+    private javax.swing.JPanel searchPanel;
     private javax.swing.JButton sendPrivateMessageButton;
     private javax.swing.JLabel sendPrivateMessageLabel;
     private javax.swing.JTextArea sendPrivateMessageTextArea;
