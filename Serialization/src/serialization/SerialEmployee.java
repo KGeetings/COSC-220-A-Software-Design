@@ -7,7 +7,7 @@ public class SerialEmployee {
     // create a new employee
     // and write it to a file
     // then read it back in
-
+    
     public static void main(String[] args) {
         // create a new employee
         Employee harry = new Employee("Harry Hacker", 50000, 2001, 6, 22);
