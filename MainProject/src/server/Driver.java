@@ -274,9 +274,12 @@ public class Driver {
                 System.out.println(username);
 
                 // Check if message is empty, or if it is too long, or if it contains "BREAKLINE000"
-                if (message.equals("") || message.length() > 140 || message.contains("BREAKLINE000") || hashtag.contains("BREAKLINE000") || hashtag.contains(" ") || hashtag.contains("#") || hashtag.contains("@") || message.contains("/n")) {
+                if (message.equals("") || message.length() > 140 || message.contains("BREAKLINE000") || message.contains("/n")) {
                     out.println("FAILURE");
                     out.println("Message is either empty, too long, or contains unallowed characters");
+                } else if (hashtag.equals("") || hashtag.length() > 140 || hashtag.contains("BREAKLINE000") || hashtag.contains(" ") || hashtag.contains("#") || hashtag.contains("@") || message.contains("/n")) {
+                    out.println("FAILURE");
+                    out.println("Hashtag is either empty, too long, or contains unallowed characters");
                 } else {
                     //check if the user exists
                     if (userList.userExists(username)) {
