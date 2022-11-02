@@ -1,4 +1,4 @@
-package serial;
+package serialization;
 
 public class Manager extends Employee
 {

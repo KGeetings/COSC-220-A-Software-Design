@@ -1,4 +1,4 @@
-package serial;
+package serialization;
 
 import java.io.*;
 import java.util.*;
