@@ -1,6 +1,7 @@
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 
@@ -136,8 +137,83 @@ public class ClientGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+/*  our task in this quiz is to implement the event handler for the WITHDRAW button. The GUI builder was
+    used to create the GUI and the event handler method has already been created and is named withdrawHandler.
+    Your code for that method needs to open a socket connection and follow the protocol given below */
+
+    /* PROTOCOL
+    GUI sends: WITHDRAW or DEPOSIT or BALANCE (in all caps, server responses will be in all caps)
+    SERVER responds: WHO or BAD COMMAND (The server will close the socket and stop sending an receiving
+    if it sends the message BAD COMMAND)
+    GUI sends: num (num is an account number in the textfield of the GUI)
+    SERVER responds: VALID or INVALID (if the account does not exist it responds with invalid and stops the
+    protocol)
+    GUI sends: num (num is the pin number for the account in the textfield of the GUI)
+    SERVER reponds: VALID or INVALID (if the pin does not match what is stored for that account it responds
+    with invalid and stops the protocol)
+    GUI sends: amount (amount comes from the textfield in the GUI)
+    SERVER responds: SUFFICIENT or INSUFFICIENT
+    If the server responds with sufficient, it immediately sends another line which is the new balance of the
+    account.
+    If the server responds with insufficient because there were not enough funds to cover the withdrawal it stops the
+    protocol (A withdraw command is the only time the server would send insufficient)
+    GUI sends: COMPLETE (only if the previous message was SUFFICIENT with a new balance)
+    SERVER responds: SAYANORA */
+
+    /* The GUI should display an appropriate message with a JOptionPane message box giving the result of the
+    transaction and should update the Balance text field if the transaction was successfully completed. Remember
+    that you are only writing the client portion of this protocol.
+    For full credit your code must recognize when it gets BAD COMMAND or INVALID and give the user an
+    appropriate message and stop the protocol. */
     private void withdrawHandler(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_withdrawHandler
-        // TODO add your handling code here:
+        try {
+            Socket socket = new Socket("localhost", 8000);
+            InputStream inStream = socket.getInputStream();
+            OutputStream outStream = socket.getOutputStream();
+
+            try (Scanner in = new Scanner(inStream)) {
+                PrintWriter out = new PrintWriter(outStream, true);
+
+                out.println("WITHDRAW");
+                String response = in.nextLine();
+
+                if (response.equals("WHO")) {
+                    out.println(accountFld.getText());
+                    response = in.nextLine();
+
+                    if (response.equals("VALID")) {
+                        out.println(pinFld.getText());
+                        response = in.nextLine();
+
+                        if (response.equals("VALID")) {
+                            out.println(amountFld.getText());
+                            response = in.nextLine();
+
+                            if (response.equals("SUFFICIENT")) {
+                                response = in.nextLine();
+                                balanceFld.setText(response);
+                                out.println("COMPLETE");
+                                response = in.nextLine();
+
+                                if (response.equals("SAYANORA")) {
+                                    javax.swing.JOptionPane.showMessageDialog(this, "Withdrawal successful");
+                                }
+                            } else if (response.equals("INSUFFICIENT")) {
+                                javax.swing.JOptionPane.showMessageDialog(this, "Insufficient funds");
+                            }
+                        } else if (response.equals("INVALID")) {
+                            javax.swing.JOptionPane.showMessageDialog(this, "Invalid pin");
+                        }
+                    } else if (response.equals("INVALID")) {
+                        javax.swing.JOptionPane.showMessageDialog(this, "Invalid account number");
+                    }
+                } else if (response.equals("BAD COMMAND")) {
+                    javax.swing.JOptionPane.showMessageDialog(this, "Bad command");
+                }
+            }
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
     }//GEN-LAST:event_withdrawHandler
 
     private void depositHandler(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_depositHandler
