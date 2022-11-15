@@ -4,7 +4,7 @@ import java.io.*;
 import java.net.*;
 import java.util.Scanner;
 
-public class Driver {
+public class Driver extends Thread{
     //Server driver class, uses a UserList object to store the users and their information
     //Server driver connects to clients with a socket and communicates with them
 
@@ -14,7 +14,6 @@ public class Driver {
         //If SUCCESS, Client expected information (for example, username, password, ipAddress for login)
         //If FAILURE, Client expected error message
         //If LIST, Client expected list of users
-
 
     public Driver (int port, UserList userList) {
         try (ServerSocket listen = new ServerSocket (port)) {
@@ -351,33 +350,11 @@ public class Driver {
         }
     }
 
-    public static void main(String[] args) {
-        //create a UserList object
-        UserList userList = new UserList();
-
-        //create an admin user, with username "admin" and pass "admin"
-        userList.register("admin", "admin", "admin");
-
-        //create a test user, with username "test" and pass "test"
-        userList.register("test", "test", "testt");
-        userList.register("test2", "test2", "testt2");
-        userList.register("test3", "test3", "testt3");
-
-        //create a test message, with sender "test" and message
-        MessageList.addMessage("testMessage", "test2", "hashtag");
-        MessageList.addMessage("test2Message", "test2", "hashtag2");
-        MessageList.addMessage("test3Message", "test3", "hashtag3");
-        MessageList.addMessage("test1Message", "test", "hashtag1");
-
-        //have test follow test2
-        userList.addFollowing("test", "test2");
-        userList.addFollower("test2", "test");
-
-        new Driver(2001, userList);
-
-        //continue to rerun the driver if the connection is lost
-        while (true) {
-            new Driver(2001, userList);
-        }
+    @Override
+    public void run() {
+        // Print out what thread we are running on
+        System.out.println("Running on thread " + Thread.currentThread().getName());
+        // Create a new driver object
+        //new Driver(2001, Server.userList);
     }
 }
