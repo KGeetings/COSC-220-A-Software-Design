@@ -80,4 +80,35 @@ public class MessageList {
         return messages;
     }
 
+    public static String getUserMessages(String usernameSearch) {
+        //get all messages from the given user
+        String messages = "";
+        for (int i = 0; i < messageList.size(); i++) {
+            if (messageList.get(i).getUsername().equals(usernameSearch)) {
+                messages += messageList.get(i).getMessage() + " \t#" + messageList.get(i).getHashtag() + " \tid:" + messageList.get(i).getTimestamp() + " \tfrom:" + messageList.get(i).getUsername() + "BREAKLINE000";
+            }
+        }
+        return messages;
+    }
+
+    public static boolean messageExists(String id) {
+        //check if the message exists
+        //return true if the message exists, false if not
+        for (int i = 0; i < messageList.size(); i++) {
+            if (messageList.get(i).getTimestamp() == Integer.parseInt(id)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static void deleteMessage(String id) {
+        //delete the message with the given id
+        for (int i = 0; i < messageList.size(); i++) {
+            if (messageList.get(i).getTimestamp() == Integer.parseInt(id)) {
+                messageList.remove(i);
+            }
+        }
+    }
+
 }

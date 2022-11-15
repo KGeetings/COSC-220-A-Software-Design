@@ -161,4 +161,9 @@ public class UserList {
         userList.get(username).clearNewFollowerOrUnfollower();
     }
 
+    //change user's password
+    public static void changePassword(String username, String password) {
+        userList.get(username).setPassword(password);
+    }
+
 }

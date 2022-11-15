@@ -410,6 +410,109 @@ public class Driver extends Thread{
                     out.println("FAILURE");
                     out.println("Users are the same");
                 }
+            } //Admin sends command "CHANGEPASSWORD"
+            else if (line.equals("CHANGEPASSWORD")) {
+                //get username/password of supposed admin
+                String username = in.nextLine();
+                String password = in.nextLine();
+
+                //check if the user is an admin
+                if (UserList.isAdmin(username, password)) {
+                    //Send a success message
+                    out.println("SUCCESS");
+                    
+                    //get username/password of user to change password
+                    String usernameChange = in.nextLine();
+                    String passwordChange = in.nextLine();
+
+                    //check if the user exists
+                    if (userList.userExists(usernameChange)) {
+                        //check if user is not logged in
+                        if (!userList.checkLoggedIn(usernameChange)) {
+                            //change the password
+                            UserList.changePassword(usernameChange, passwordChange);
+
+                            //send a success message
+                            out.println("SUCCESS");
+                        } else {
+                            //if the user is logged in, send a failure message
+                            out.println("FAILURE");
+                            out.println("User is logged in");
+                        }
+                    } else {
+                        //if the user does not exist, send a failure message
+                        out.println("FAILURE");
+                        out.println("User does not exist");
+                    }
+                } else {
+                    //if the user is not an admin, send a failure message
+                    out.println("FAILURE");
+                    out.println("User is not an admin");
+                }
+            } //Admin sends "SEARCHUSER" and we respond with all messages sent by this user that are in the public feed
+            else if (line.equals("SEARCHUSER")) {
+                //get username/password of supposed admin
+                String username = in.nextLine();
+                String password = in.nextLine();
+
+                //check if the user is an admin
+                if (UserList.isAdmin(username, password)) {
+                    //Send a success message
+                    out.println("SUCCESS");
+                    
+                    //get username of user to search for
+                    String usernameSearch = in.nextLine();
+
+                    //check if the user exists
+                    if (userList.userExists(usernameSearch)) {
+                        //get the list of messages sent by the user
+                        String list = MessageList.getUserMessages(usernameSearch);
+
+                        //send the list of messages sent by the user
+                        out.println("SUCCESS");
+                        out.println(list);
+                        System.out.println(list);
+                    } else {
+                        //if the user does not exist, send a failure message
+                        out.println("FAILURE");
+                        out.println("User does not exist");
+                    }
+                } else {
+                    //if the user is not an admin, send a failure message
+                    out.println("FAILURE");
+                    out.println("User is not an admin");
+                }
+            } //Admin sends "DELETEMESSAGE" and we delete the message with the given ID number
+            else if (line.equals("DELETEMESSAGE")) {
+                //get username/password of supposed admin
+                String username = in.nextLine();
+                String password = in.nextLine();
+
+                //check if the user is an admin
+                if (UserList.isAdmin(username, password)) {
+                    //Send a success message
+                    out.println("SUCCESS");
+                    
+                    //get the ID number of the message to delete
+                    String id = in.nextLine();
+
+                    //check if the message exists
+                    if (MessageList.messageExists(id)) {
+                        //delete the message
+                        MessageList.deleteMessage(id);
+
+                        //send a success message
+                        out.println("SUCCESS");
+                    } else {
+                        //if the message does not exist, send a failure message
+                        out.println("FAILURE");
+                        out.println("Message does not exist");
+                    }
+                } else {
+                    //if the user is not an admin, send a failure message
+                    out.println("FAILURE");
+                    out.println("User is not an admin");
+                }
             }
         } catch (IOException e) {
             // If an I/O error occurs, print a message, then attempt to reconnect
