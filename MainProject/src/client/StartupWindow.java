@@ -39,8 +39,9 @@ public class StartupWindow extends javax.swing.JFrame {
 
         welcomeLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         welcomeLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        welcomeLabel.setText("Welcome to *ProjectName*");
+        welcomeLabel.setText("Welcome to \"The Better Twitter\"");
 
+        aboutButton.setBackground(new java.awt.Color(51, 255, 204));
         aboutButton.setText("About");
         aboutButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -48,6 +49,7 @@ public class StartupWindow extends javax.swing.JFrame {
             }
         });
 
+        logInButton.setBackground(new java.awt.Color(51, 255, 204));
         logInButton.setText("Log In");
         logInButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -55,6 +57,7 @@ public class StartupWindow extends javax.swing.JFrame {
             }
         });
 
+        registerButton.setBackground(new java.awt.Color(51, 255, 204));
         registerButton.setText("Register");
         registerButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
