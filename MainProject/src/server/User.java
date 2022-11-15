@@ -15,6 +15,7 @@ public class User {
     private String followers;
     private String following;
     private int lastRead;
+    private String newFollowerOrUnfollower;
 
     //constructor
     public User(String username, String password, String ipAddress, String status) {
@@ -25,6 +26,7 @@ public class User {
         this.followers = "";
         this.following = "";
         this.lastRead = 0;
+        this.newFollowerOrUnfollower = "";
     }
 
     public Object getPassword() {
@@ -110,5 +112,17 @@ public class User {
         } else {
             return "false";
         }
+    }
+
+    public String getNewFollowerOrUnfollower() {
+        return newFollowerOrUnfollower;
+    }
+
+    public void addNewFollowerOrUnfollower(String newFollowerOrUnfollower2) {
+        newFollowerOrUnfollower = newFollowerOrUnfollower + newFollowerOrUnfollower2 + ",";
+    }
+
+    public void clearNewFollowerOrUnfollower() {
+        newFollowerOrUnfollower = "";
     }
 }

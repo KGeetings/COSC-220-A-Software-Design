@@ -146,4 +146,19 @@ public class UserList {
         }
     }
 
+    //get user's new follower or unfollower notifications
+    public static String getNewFollowerOrUnfollower(String username) {
+        return userList.get(username).getNewFollowerOrUnfollower();
+    }
+
+    //set user's new follower or unfollower notifications
+    public static void setNewFollowerOrUnfollower(String username, String newFollowerOrUnfollower) {
+        userList.get(username).addNewFollowerOrUnfollower(newFollowerOrUnfollower);
+    }
+
+    //reset user's new follower or unfollower notifications
+    public static void resetNewFollowerOrUnfollower(String username) {
+        userList.get(username).clearNewFollowerOrUnfollower();
+    }
+
 }

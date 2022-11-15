@@ -12,9 +12,9 @@ public class Server{
         userList.register("admin", "admin", "admin");
 
         //create a test user, with username "test" and pass "test"
-        userList.register("test", "test", "locaLhost");
-        userList.register("test2", "test2", "locaLhost");
-        userList.register("test3", "test3", "locaLhost");
+        userList.register("test", "test", "localhost");
+        userList.register("test2", "test2", "localhost");
+        userList.register("test3", "test3", "localhost");
 
         //create a test message, with sender "test" and message
         MessageList.addMessage("testMessage", "test2", "hashtag");
@@ -26,11 +26,17 @@ public class Server{
         userList.addFollowing("test", "test2");
         userList.addFollower("test2", "test");
 
+        //make test2 be logged in
+        //userList.login("test2", "test2", "localhost");
+
+        // Print out ip address so we can connect to this server
+        System.out.println("Server is running on ip address " + InetAddress.getLocalHost().getHostAddress());
+
         //create new threads of the driver class when a new client connects
         while(true){
+            System.out.println("Before new thread");
             new Driver(2001, userList).start();
-            // Print out ip address so we can connect to this server
-            System.out.println("Server is running on ip address " + InetAddress.getLocalHost().getHostAddress());
+            System.out.println("Driver thread started on port 2001");
         }
     }
 

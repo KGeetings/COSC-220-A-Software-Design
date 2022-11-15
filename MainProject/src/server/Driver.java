@@ -51,6 +51,13 @@ public class Driver extends Thread{
                             } else {
                                 out.println("SUCCESS");
                             }
+                            //check if the user has any new followers or unfollowers
+                            String newMessages = UserList.getNewFollowerOrUnfollower(username);
+                            //if new messages, send them to the client
+                            if (!newMessages.equals("")) {
+                                //Create a new thread to send the messages
+                                new Thread(new ClientSender(username, ipAddress, newMessages)).start();
+                            }
                         }
                     } else {
                         //if the password is incorrect, send a failure message
@@ -143,6 +150,18 @@ public class Driver extends Thread{
                             //if the user is not following the followee, follow them, and set the followee's follower to the user
                             userList.addFollowing(username, followee);
                             userList.addFollower(followee, username);
+                            
+                            // check if the followee is logged in
+                            if (userList.checkLoggedIn(followee)) {
+                                //if the followee is logged in, send a message to the followee
+                                String ipAddress = userList.getIpAddress(followee);
+                                String message = username;
+                                //Create a new thread to send the message
+                                new Thread(new ClientSender(followee, ipAddress, message)).start();
+                            } else {
+                                //if the followee is not logged in, send a message to the followee when they log in
+                                UserList.setNewFollowerOrUnfollower(followee, username);
+                            }
                             out.println("SUCCESS");
                         }
                     } else {
@@ -184,6 +203,18 @@ public class Driver extends Thread{
                             userList.removeFollowing(username, followee);
                             userList.removeFollower(followee, username);
                             out.println("SUCCESS");
+
+                            // check if the followee is logged in
+                            if (userList.checkLoggedIn(followee)) {
+                                //if the followee is logged in, send a message to the followee
+                                String ipAddress = userList.getIpAddress(followee);
+                                String message = username;
+                                //Create a new thread to send the message
+                                new Thread(new ClientSender(followee, ipAddress, message)).start();
+                            } else {
+                                //if the followee is not logged in, send a message to the followee when they log in
+                                UserList.setNewFollowerOrUnfollower(followee, username);
+                            }
                         } else {
                             //if the user is not following the followee, send a failure message
                             out.println("FAILURE");
@@ -346,24 +377,38 @@ public class Driver extends Thread{
             } //Client sends command "USERONLINE"
             else if (line.equals("USERONLINE")) {
                 //get username
+                String usernameSending = in.nextLine();
+                System.out.println(usernameSending);
+
+                //get username
                 String username = in.nextLine();
                 System.out.println(username);
 
-                //check if the user exists
-                if (userList.userExists(username)) {
-                    //check if the user is online
-                    if (userList.checkLoggedIn(username)) {
-                        //if the user is online, send a success message
-                        out.println("SUCCESS");
+                //check if the users are not the same
+                if (!usernameSending.equals(username)) {
+                    //check if the user exists
+                    if (userList.userExists(username)) {
+                        //check if the user is online
+                        if (userList.checkLoggedIn(username)) {
+                            //if the user is online, send a success message
+                            out.println("SUCCESS");
+
+                            //send the ip address of the user
+                            out.println(userList.getIpAddress(username));
+                        } else {
+                            //if the user is not online, send a failure message
+                            out.println("FAILURE");
+                            out.println("User is not online");
+                        }
                     } else {
-                        //if the user is not online, send a failure message
+                        //if the user does not exist, send a failure message
                         out.println("FAILURE");
-                        out.println("User is not online");
+                        out.println("User does not exist");
                     }
                 } else {
-                    //if the user does not exist, send a failure message
+                    //if the users are the same, send a failure message
                     out.println("FAILURE");
-                    out.println("User does not exist");
+                    out.println("Users are the same");
                 }
             }
         } catch (IOException e) {

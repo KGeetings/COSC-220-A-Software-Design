@@ -4,6 +4,8 @@
  */
 package client;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 /**
@@ -31,7 +33,10 @@ public class Client {
     public static ArrayList<String> messages = new ArrayList<String>();
     public static ArrayList<String> hashtags = new ArrayList<String>();
 
-    public static void main(String[] args) {
+    //keep new messages
+    public static String newMessages = "";
+
+    public static void main(String[] args) throws UnknownHostException {
         // Run StartupWindow.java form
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -40,9 +45,12 @@ public class Client {
             }
         });
 
+        // Print out ip address so we can connect to this server
+        System.out.println("Client is running on ip address " + InetAddress.getLocalHost().getHostAddress());
+        
         // Create new threads to listen for messages from the server or other clients when needed
-        /* new ClientListener(2001).start(); */
         while(true){
+            System.out.println("Before new thread");
             new ClientListener(2002).start();
         }
     }

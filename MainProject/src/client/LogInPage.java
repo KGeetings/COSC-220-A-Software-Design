@@ -122,8 +122,7 @@ public class LogInPage extends javax.swing.JDialog {
                 // Send usernam, password, ipAddress to server
                 out.println(usernameTextField.getText());
                 out.println(userPasswordField.getText());
-                //out.println(InetAddress.getLocalHost().getHostAddress());
-                out.println("localhost");
+                out.println(InetAddress.getLocalHost().getHostAddress());
 
                 // Receive response from server
                 String response = in.nextLine();

@@ -22,6 +22,9 @@ public class MainPage extends javax.swing.JFrame {
         initComponents();
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         updateFollowingList();
+        if (Client.newMessages != "") {
+            updateMessages(Client.newMessages);
+        }
     }
 
     /**
@@ -769,15 +772,20 @@ public class MainPage extends javax.swing.JFrame {
 
                     // Send "USERONLINE" to server
                     out.println("USERONLINE");
+
+                    // Send our username to server
+                    out.println(Client.username);
                     
                     // Send username to server
                     out.println(Client.userUsername);
+                    System.out.println("Sent username to server");
                     
                     // Receive response from server
                     String response = in.nextLine();
 
                     // If response is "success", then get the ip address of the user we want to message
                     if (response.equals("SUCCESS")) {
+                        System.out.println("Got SUCCESS from server");
                         // Get the ip address of the user we want to message
                         Client.userIPAddress = in.nextLine();
                         // Set sendPrivateMessageLabel to the username of the user we want to message
@@ -822,7 +830,7 @@ public class MainPage extends javax.swing.JFrame {
 
         // Check if we have entered a message and have a user and ip address to send it to
         if (message != null && Client.userUsername != null && Client.userIPAddress != null) {
-            try (Socket connector = new Socket(Client.userIPAddress, 2002)) {
+            try (Socket connector = new Socket(Client.userIPAddress, 2003)) {
                 InputStream inStream = connector.getInputStream();
                 OutputStream outStream = connector.getOutputStream();
 
@@ -914,6 +922,11 @@ public class MainPage extends javax.swing.JFrame {
         } catch (IOException ex) {
             System.out.println(ex);
         }
+    }
+
+    public static void updateMessages(String message) {
+        // Popup message
+        javax.swing.JOptionPane.showMessageDialog(null, message);
     }
 
     /**

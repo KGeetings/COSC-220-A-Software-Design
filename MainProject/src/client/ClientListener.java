@@ -16,6 +16,8 @@ public class ClientListener extends Thread {
             //follow the protocol
             String line = in.nextLine();
             System.out.println(line);
+
+            // if the client receives a message from another client as "SENDPRIVATEMESSAGE"
             if (line.equals("SENDPRIVATEMESSAGE")) {
                 //get the username of the other user
                 String username = in.nextLine();
@@ -30,6 +32,13 @@ public class ClientListener extends Thread {
 
                 //update the private message window
                 MainPage.updateUserPrivateMessages();
+
+                //send "SUCCESS" to the server
+                out.println("SUCCESS");
+            } // if the Client receives a message from the server as "SENDMESSAGE"
+            else if (line.equals("SENDMESSAGE")) {
+                //get the next line from the server
+                Client.newMessages = in.nextLine();
 
                 //send "SUCCESS" to the server
                 out.println("SUCCESS");
