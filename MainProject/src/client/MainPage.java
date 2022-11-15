@@ -339,17 +339,27 @@ public class MainPage extends javax.swing.JFrame {
 
         receivePrivateMessageLabel.setText("Receive a private message:");
 
-        sendPrivateMessageLabel.setText("Send a private message:");
+        sendPrivateMessageLabel.setText("Send a private message to:");
 
         sendPrivateMessageTextArea.setColumns(20);
         sendPrivateMessageTextArea.setRows(5);
         jScrollPane4.setViewportView(sendPrivateMessageTextArea);
 
         sendPrivateMessageButton.setText("Send");
+        sendPrivateMessageButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sendPrivateMessageButtonActionPerformed(evt);
+            }
+        });
 
         whoToMessageLabel.setText("Who do you want to message?");
 
         goWhoToMessageButton.setText("Go");
+        goWhoToMessageButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                goWhoToMessageButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout dmPanelLayout = new javax.swing.GroupLayout(dmPanel);
         dmPanel.setLayout(dmPanelLayout);
@@ -357,25 +367,24 @@ public class MainPage extends javax.swing.JFrame {
             dmPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(dmPanelLayout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(dmPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(sendPrivateMessageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(dmPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(dmPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(sendPrivateMessageButton)
+                            .addGroup(dmPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING)))
+                        .addComponent(receivePrivateMessageLabel)))
+                .addGap(18, 18, 18)
                 .addGroup(dmPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(sendPrivateMessageLabel)
                     .addGroup(dmPanelLayout.createSequentialGroup()
-                        .addGroup(dmPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(dmPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(sendPrivateMessageButton)
-                                .addGroup(dmPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 653, Short.MAX_VALUE)
-                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING)))
-                            .addComponent(receivePrivateMessageLabel))
-                        .addGap(18, 18, 18)
-                        .addGroup(dmPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(dmPanelLayout.createSequentialGroup()
-                                .addComponent(whoToMessageLabel)
-                                .addGap(0, 64, Short.MAX_VALUE))
-                            .addComponent(usernameToMessageTextField)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dmPanelLayout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(goWhoToMessageButton)))))
+                        .addComponent(whoToMessageLabel)
+                        .addGap(0, 85, Short.MAX_VALUE))
+                    .addComponent(usernameToMessageTextField)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dmPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(goWhoToMessageButton)))
                 .addContainerGap())
         );
         dmPanelLayout.setVerticalGroup(
@@ -745,6 +754,128 @@ public class MainPage extends javax.swing.JFrame {
         updateFeed();
     }//GEN-LAST:event_formWindowOpened
 
+    private void goWhoToMessageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goWhoToMessageButtonActionPerformed
+        // Get the username of the user we want to message from the usernameToMessageTextField and store it in a variable
+        Client.userUsername = usernameToMessageTextField.getText();
+
+        // Check if we have entered a username
+        if (Client.userUsername != null) {
+            try (Socket connector = new Socket("localhost", 2001)) {
+                InputStream inStream = connector.getInputStream();
+                OutputStream outStream = connector.getOutputStream();
+
+                try (Scanner in = new Scanner(inStream)) {
+                    PrintWriter out = new PrintWriter(new OutputStreamWriter(outStream), true);
+
+                    // Send "USERONLINE" to server
+                    out.println("USERONLINE");
+                    
+                    // Send username to server
+                    out.println(Client.userUsername);
+                    
+                    // Receive response from server
+                    String response = in.nextLine();
+
+                    // If response is "success", then get the ip address of the user we want to message
+                    if (response.equals("SUCCESS")) {
+                        // Get the ip address of the user we want to message
+                        Client.userIPAddress = in.nextLine();
+                        // Set sendPrivateMessageLabel to the username of the user we want to message
+                        sendPrivateMessageLabel.setText("Send a private message to: " + Client.userUsername);
+                    } if (response.equals("FAILURE")) {
+                        // Get next line from server and display it as a popup error
+                        String error = in.nextLine();
+                        if (error.equals("User is not online")) {
+                            Client.userUsername = null;
+                            Client.userIPAddress = null;
+                            sendPrivateMessageLabel.setText("Send a private message to: ");
+                            javax.swing.JOptionPane.showMessageDialog(this, error);
+                        } else if (error.equals("User does not exist")) {
+                            Client.userUsername = null;
+                            Client.userIPAddress = null;
+                            sendPrivateMessageLabel.setText("Send a private message to: ");
+                            javax.swing.JOptionPane.showMessageDialog(this, error);
+                        } else {
+                            Client.userUsername = null;
+                            Client.userIPAddress = null;
+                            sendPrivateMessageLabel.setText("Send a private message to: ");
+                            javax.swing.JOptionPane.showMessageDialog(this, error);
+                        }
+                    }
+                }
+            } catch (IOException ex) {
+                System.out.println(ex);
+            }
+        } else {
+            Client.userUsername = null;
+            Client.userIPAddress = null;
+            sendPrivateMessageLabel.setText("Send a private message to: ");
+            // Popup error message
+            javax.swing.JOptionPane.showMessageDialog(this, "Please enter a username to message");
+        }
+
+    }//GEN-LAST:event_goWhoToMessageButtonActionPerformed
+
+    private void sendPrivateMessageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendPrivateMessageButtonActionPerformed
+        // Get the message we want to send from the sendPrivateMessageTextArea and store it in a variable
+        String message = sendPrivateMessageTextArea.getText();
+
+        // Check if we have entered a message and have a user and ip address to send it to
+        if (message != null && Client.userUsername != null && Client.userIPAddress != null) {
+            try (Socket connector = new Socket(Client.userIPAddress, 2002)) {
+                InputStream inStream = connector.getInputStream();
+                OutputStream outStream = connector.getOutputStream();
+
+                try (Scanner in = new Scanner(inStream)) {
+                    PrintWriter out = new PrintWriter(new OutputStreamWriter(outStream), true);
+
+                    // Send "SENDPRIVATEMESSAGE" to other client
+                    out.println("SENDPRIVATEMESSAGE");
+                    
+                    // Send our username to other client
+                    out.println(Client.username);
+                    
+                    // Send message to other client
+                    out.println(message);
+                    
+                    // Receive response from other client
+                    String response = in.nextLine();
+
+                    // If response is "success", then display a popup message saying the message was sent
+                    if (response.equals("SUCCESS")) {
+                        // Display a popup message saying the message was sent
+                        javax.swing.JOptionPane.showMessageDialog(this, "Message sent");
+                        // Add the message to the list of private messages we have sent
+                        Client.userPrivateMessages.add(message);
+                        Client.userPrivateMessagesUsernameReceiving.add(Client.userUsername);
+                        Client.userPrivateMessagesUsernameSending.add(Client.username);
+                        // Update the list of private messages we have
+                        updateUserPrivateMessages();
+                    } if (response.equals("FAILURE")) {
+                        // Get next line from server and display it as a popup error
+                        String error = in.nextLine();
+                        javax.swing.JOptionPane.showMessageDialog(this, error);
+                    }
+                }
+            } catch (IOException ex) {
+                System.out.println(ex);
+            }
+        } else {
+            // Popup error message
+            javax.swing.JOptionPane.showMessageDialog(this, "Please enter a message to send");
+        }
+    }//GEN-LAST:event_sendPrivateMessageButtonActionPerformed
+
+    static void updateUserPrivateMessages() {
+        // Clear the list of private messages we have
+        receivePrivateMessageTextArea.setText("");
+        // Loop through the list of private messages we have
+        for (int i = 0; i < Client.userPrivateMessages.size(); i++) {
+            // Add the message to the list of private messages we have
+            receivePrivateMessageTextArea.append(Client.userPrivateMessagesUsernameSending.get(i) + " -> " + Client.userPrivateMessagesUsernameReceiving.get(i) + ": " + Client.userPrivateMessages.get(i) + "\n");
+        }
+    }
+
     private void updateFeed() {
         try (Socket connector = new Socket("localhost", 2001)) {
             InputStream inStream = connector.getInputStream();
@@ -849,7 +980,7 @@ public class MainPage extends javax.swing.JFrame {
     private javax.swing.JLabel peopleOnlineLabel;
     private javax.swing.JTextArea peopleOnlineTextArea;
     private javax.swing.JLabel receivePrivateMessageLabel;
-    private javax.swing.JTextArea receivePrivateMessageTextArea;
+    private static javax.swing.JTextArea receivePrivateMessageTextArea;
     private javax.swing.JButton refreshFeedButton;
     private javax.swing.JButton searchButton;
     private javax.swing.JLabel searchHashtagLabel;

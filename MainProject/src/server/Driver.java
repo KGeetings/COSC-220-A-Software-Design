@@ -343,6 +343,28 @@ public class Driver extends Thread{
                     out.println("FAILURE");
                     out.println("User does not exist");
                 }
+            } //Client sends command "USERONLINE"
+            else if (line.equals("USERONLINE")) {
+                //get username
+                String username = in.nextLine();
+                System.out.println(username);
+
+                //check if the user exists
+                if (userList.userExists(username)) {
+                    //check if the user is online
+                    if (userList.checkLoggedIn(username)) {
+                        //if the user is online, send a success message
+                        out.println("SUCCESS");
+                    } else {
+                        //if the user is not online, send a failure message
+                        out.println("FAILURE");
+                        out.println("User is not online");
+                    }
+                } else {
+                    //if the user does not exist, send a failure message
+                    out.println("FAILURE");
+                    out.println("User does not exist");
+                }
             }
         } catch (IOException e) {
             // If an I/O error occurs, print a message, then attempt to reconnect
@@ -354,7 +376,5 @@ public class Driver extends Thread{
     public void run() {
         // Print out what thread we are running on
         System.out.println("Running on thread " + Thread.currentThread().getName());
-        // Create a new driver object
-        //new Driver(2001, Server.userList);
     }
 }
