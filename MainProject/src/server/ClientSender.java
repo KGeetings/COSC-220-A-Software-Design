@@ -32,6 +32,8 @@ public class ClientSender extends Thread{
                     UserList.resetNewFollowerOrUnfollower(username);
                 }
             }
+            // Close the socket
+            connector.close();
         } catch (IOException ex) {
             System.out.println(ex);
         }

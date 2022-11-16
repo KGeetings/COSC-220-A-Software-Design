@@ -514,6 +514,10 @@ public class Driver extends Thread{
                     out.println("User is not an admin");
                 }
             }
+            // close the sockets and resume listening for more connections
+            in.close();
+            out.close();
+            client.close();
         } catch (IOException e) {
             // If an I/O error occurs, print a message, then attempt to reconnect
             System.out.println("Connection lost, attempting to reconnect");

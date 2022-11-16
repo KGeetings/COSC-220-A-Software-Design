@@ -47,6 +47,8 @@ public class ClientListener extends Thread {
                 //send "SUCCESS" to the server
                 out.println("SUCCESS");
             }
+            //close the socket
+            client.close();
         } catch (IOException e) {
             // If an I/O error occurs, print a message, then attempt to reconnect
             System.out.println("Connection lost, attempting to reconnect");
