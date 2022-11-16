@@ -6,6 +6,20 @@ import java.util.Scanner;
 
 public class ClientSender extends Thread{
     public ClientSender(String username, String ipAddress, String newMessages) {
+        this.username = username;
+        this.ipAddress = ipAddress;
+        this.newMessages = newMessages;
+    }
+
+    private String username;
+    private String ipAddress;
+    private String newMessages;
+
+    @Override
+    public void run() {
+        // Print out what thread we are running on
+        System.out.println("ClientSender is running on thread " + Thread.currentThread().getName());
+
         try (Socket connector = new Socket(ipAddress, 2002)) {
             InputStream inStream = connector.getInputStream();
             OutputStream outStream = connector.getOutputStream();
@@ -17,7 +31,7 @@ public class ClientSender extends Thread{
                 out.println("SENDMESSAGE");
                 
                 // Make the mesage say "Welcome back {username}, the following people have followed/unfollowed you since you last logged in: {newMessages}"
-                String message = "Welcome back " + username + ", the following people have followed/unfollowed you since you last logged in: " + newMessages;
+                String message = "Hello " + username + ", the following people have followed/unfollowed you: " + newMessages;
 
                 // Send the message to the client
                 out.println(message);
@@ -37,11 +51,5 @@ public class ClientSender extends Thread{
         } catch (IOException ex) {
             System.out.println(ex);
         }
-    }
-
-    @Override
-    public void run() {
-        // Print out what thread we are running on
-        System.out.println("ClientSender is running on thread " + Thread.currentThread().getName());
     }
 }

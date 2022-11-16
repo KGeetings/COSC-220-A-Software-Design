@@ -49,8 +49,6 @@ public class Client {
         System.out.println("Client is running on ip address " + InetAddress.getLocalHost().getHostAddress());
 
         // Create new threads to listen for messages from the server or other clients when needed
-        while(true){
-            new ClientListener(2002).start();
-        }
+        new ClientListener(2002).start();
     }
 }
