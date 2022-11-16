@@ -830,7 +830,7 @@ public class MainPage extends javax.swing.JFrame {
 
         // Check if we have entered a message and have a user and ip address to send it to
         if (message != null && Client.userUsername != null && Client.userIPAddress != null) {
-            try (Socket connector = new Socket(Client.userIPAddress, 2003)) {
+            try (Socket connector = new Socket(Client.userIPAddress, 2002)) {
                 InputStream inStream = connector.getInputStream();
                 OutputStream outStream = connector.getOutputStream();
 

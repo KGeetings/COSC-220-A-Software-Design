@@ -39,6 +39,10 @@ public class ClientListener extends Thread {
             else if (line.equals("SENDMESSAGE")) {
                 //get the next line from the server
                 Client.newMessages = in.nextLine();
+                //String newMessages = in.nextLine();
+
+                //Open a new dialog box to display the message
+                //javax.swing.JOptionPane.showMessageDialog(null, this, newMessages, port);
 
                 //send "SUCCESS" to the server
                 out.println("SUCCESS");

@@ -47,10 +47,9 @@ public class Client {
 
         // Print out ip address so we can connect to this server
         System.out.println("Client is running on ip address " + InetAddress.getLocalHost().getHostAddress());
-        
+
         // Create new threads to listen for messages from the server or other clients when needed
         while(true){
-            System.out.println("Before new thread");
             new ClientListener(2002).start();
         }
     }

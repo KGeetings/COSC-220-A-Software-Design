@@ -26,15 +26,11 @@ public class Server{
         userList.addFollowing("test", "test2");
         userList.addFollower("test2", "test");
 
-        //make test2 be logged in
-        //userList.login("test2", "test2", "localhost");
-
         // Print out ip address so we can connect to this server
         System.out.println("Server is running on ip address " + InetAddress.getLocalHost().getHostAddress());
 
         //create new threads of the driver class when a new client connects
         while(true){
-            System.out.println("Before new thread");
             new Driver(2001, userList).start();
             System.out.println("Driver thread started on port 2001");
         }
