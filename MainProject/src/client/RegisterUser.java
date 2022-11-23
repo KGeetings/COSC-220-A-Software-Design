@@ -109,7 +109,7 @@ public class RegisterUser extends javax.swing.JDialog {
         String username = usernameTextField.getText();
         String password = userPasswordField.getText();
         if (username.length() > 0 && password.length() > 0 && !username.contains(" ") && !username.contains("!") && !username.contains(",") && !username.contains(";") && !password.contains(" ") && !password.contains("!") && !password.contains(",") && !password.contains(";")) {
-            try (Socket connector = new Socket("localhost", 2001)) {
+            try (Socket connector = new Socket(Client.serverIP, 2001)) {
                 InputStream inStream = connector.getInputStream();
                 OutputStream outStream = connector.getOutputStream();
     
@@ -123,7 +123,7 @@ public class RegisterUser extends javax.swing.JDialog {
                     out.println(usernameTextField.getText());
                     out.println(userPasswordField.getText());
                     //out.println(InetAddress.getLocalHost().getHostAddress());
-                    out.println("localhost");
+                    out.println(Client.serverIP);
                     
                     // Receive response from server
                     String response = in.nextLine();

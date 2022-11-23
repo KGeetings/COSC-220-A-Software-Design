@@ -290,7 +290,7 @@ public class AdminPanel extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void shutdownServerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shutdownServerButtonActionPerformed
-        try (Socket connector = new Socket("localhost", 2001)) {
+        try (Socket connector = new Socket(Client.serverIP, 2001)) {
             InputStream inStream = connector.getInputStream();
             OutputStream outStream = connector.getOutputStream();
 
@@ -327,7 +327,7 @@ public class AdminPanel extends javax.swing.JFrame {
     private void logOutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOutButtonActionPerformed
         // Check if we have already logged out, if not, log out
         if (Client.username != null) {
-            try (Socket connector = new Socket("localhost", 2001)) {
+            try (Socket connector = new Socket(Client.serverIP, 2001)) {
                 InputStream inStream = connector.getInputStream();
                 OutputStream outStream = connector.getOutputStream();
 
@@ -372,7 +372,7 @@ public class AdminPanel extends javax.swing.JFrame {
 
         // Check if we have already logged out, if not, log out
         if (Client.username != null) {
-            try (Socket connector = new Socket("localhost", 2001)) {
+            try (Socket connector = new Socket(Client.serverIP, 2001)) {
                 InputStream inStream = connector.getInputStream();
                 OutputStream outStream = connector.getOutputStream();
 
@@ -425,7 +425,7 @@ public class AdminPanel extends javax.swing.JFrame {
         if (username.equals("") || newPassword.equals("")) {
             javax.swing.JOptionPane.showMessageDialog(this, "Please fill in all fields");
         } else {
-            try (Socket connector = new Socket("localhost", 2001)) {
+            try (Socket connector = new Socket(Client.serverIP, 2001)) {
                 InputStream inStream = connector.getInputStream();
                 OutputStream outStream = connector.getOutputStream();
 
@@ -475,7 +475,7 @@ public class AdminPanel extends javax.swing.JFrame {
         if (username.equals("")) {
             javax.swing.JOptionPane.showMessageDialog(this, "Please fill in all fields");
         } else {
-            try (Socket connector = new Socket("localhost", 2001)) {
+            try (Socket connector = new Socket(Client.serverIP, 2001)) {
                 InputStream inStream = connector.getInputStream();
                 OutputStream outStream = connector.getOutputStream();
 
@@ -536,7 +536,7 @@ public class AdminPanel extends javax.swing.JFrame {
         if (messageID.equals("")) {
             javax.swing.JOptionPane.showMessageDialog(this, "Please enter a message ID");
         } else {
-            try (Socket connector = new Socket("localhost", 2001)) {
+            try (Socket connector = new Socket(Client.serverIP, 2001)) {
                 InputStream inStream = connector.getInputStream();
                 OutputStream outStream = connector.getOutputStream();
 

@@ -109,7 +109,7 @@ public class LogInPage extends javax.swing.JDialog {
     @SuppressWarnings("deprecation")
     private void signInButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signInButtonActionPerformed
         // Establish connection to server
-        try (Socket connector = new Socket("localhost",2001)) {
+        try (Socket connector = new Socket(Client.serverIP,2001)) {
             InputStream inStream = connector.getInputStream();
             OutputStream outStream = connector.getOutputStream();
 
@@ -132,7 +132,7 @@ public class LogInPage extends javax.swing.JDialog {
                     //store the username and password and ipAddress to Client.java
                     Client.username = usernameTextField.getText();
                     Client.password = userPasswordField.getText();
-                    Client.ipAddress = "localhost";
+                    Client.ipAddress = Client.serverIP;
                     Client.messages = new ArrayList<>();
                     this.dispose();
                     sw1.dispose();
@@ -141,7 +141,7 @@ public class LogInPage extends javax.swing.JDialog {
                     //store the username and password and ipAddress to Client.java
                     Client.username = usernameTextField.getText();
                     Client.password = userPasswordField.getText();
-                    Client.ipAddress = "localhost";
+                    Client.ipAddress = Client.serverIP;
                     Client.messages = new ArrayList<>();
                     this.dispose();
                     sw1.dispose();

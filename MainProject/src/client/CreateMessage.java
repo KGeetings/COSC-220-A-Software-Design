@@ -109,7 +109,7 @@ public class CreateMessage extends javax.swing.JDialog {
             message = message.replace("\n", " ");
         }
 
-        try (Socket connector = new Socket("localhost", 2001)) {
+        try (Socket connector = new Socket(Client.serverIP, 2001)) {
             InputStream inStream = connector.getInputStream();
             OutputStream outStream = connector.getOutputStream();
 

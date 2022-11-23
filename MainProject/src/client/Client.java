@@ -17,6 +17,9 @@ public class Client {
      * @param args the command line arguments
      */
 
+    //keep server's IP address
+    public static String serverIP = "localhost";
+
     //keep track of the user's username
     public static String username;
     public static String password;

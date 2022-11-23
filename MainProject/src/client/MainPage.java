@@ -442,7 +442,7 @@ public class MainPage extends javax.swing.JFrame {
     }//GEN-LAST:event_createMesssageButtonActionPerformed
 
     private void logOutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOutButtonActionPerformed
-        try (Socket connector = new Socket("localhost", 2001)) {
+        try (Socket connector = new Socket(Client.serverIP, 2001)) {
             InputStream inStream = connector.getInputStream();
             OutputStream outStream = connector.getOutputStream();
 
@@ -489,7 +489,7 @@ public class MainPage extends javax.swing.JFrame {
 
         // Check if we have already logged out, if not, log out
         if (Client.username != null) {
-            try (Socket connector = new Socket("localhost", 2001)) {
+            try (Socket connector = new Socket(Client.serverIP, 2001)) {
                 InputStream inStream = connector.getInputStream();
                 OutputStream outStream = connector.getOutputStream();
 
@@ -539,7 +539,7 @@ public class MainPage extends javax.swing.JFrame {
         
         // Check if we have selected a user
         if (username != null) {
-            try (Socket connector = new Socket("localhost", 2001)) {
+            try (Socket connector = new Socket(Client.serverIP, 2001)) {
                 InputStream inStream = connector.getInputStream();
                 OutputStream outStream = connector.getOutputStream();
 
@@ -582,7 +582,7 @@ public class MainPage extends javax.swing.JFrame {
         // Clear the peopleFollowingTextArea of all text
         peopleFollowingTextArea.setText("");
         
-        try (Socket connector = new Socket("localhost", 2001)) {
+        try (Socket connector = new Socket(Client.serverIP, 2001)) {
             InputStream inStream = connector.getInputStream();
             OutputStream outStream = connector.getOutputStream();
 
@@ -627,7 +627,7 @@ public class MainPage extends javax.swing.JFrame {
         
         // Check if we have selected a user
         if (username != null) {
-            try (Socket connector = new Socket("localhost", 2001)) {
+            try (Socket connector = new Socket(Client.serverIP, 2001)) {
                 InputStream inStream = connector.getInputStream();
                 OutputStream outStream = connector.getOutputStream();
 
@@ -693,7 +693,7 @@ public class MainPage extends javax.swing.JFrame {
             // Clear the hashtagFeedTextArea of all text
             hashtagFeedTextArea.setText("");
             
-            try (Socket connector = new Socket("localhost", 2001)) {
+            try (Socket connector = new Socket(Client.serverIP, 2001)) {
                 InputStream inStream = connector.getInputStream();
                 OutputStream outStream = connector.getOutputStream();
 
@@ -763,7 +763,7 @@ public class MainPage extends javax.swing.JFrame {
 
         // Check if we have entered a username
         if (Client.userUsername != null) {
-            try (Socket connector = new Socket("localhost", 2001)) {
+            try (Socket connector = new Socket(Client.serverIP, 2001)) {
                 InputStream inStream = connector.getInputStream();
                 OutputStream outStream = connector.getOutputStream();
 
@@ -885,7 +885,7 @@ public class MainPage extends javax.swing.JFrame {
     }
 
     private void updateFeed() {
-        try (Socket connector = new Socket("localhost", 2001)) {
+        try (Socket connector = new Socket(Client.serverIP, 2001)) {
             InputStream inStream = connector.getInputStream();
             OutputStream outStream = connector.getOutputStream();
 
