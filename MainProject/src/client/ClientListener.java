@@ -35,29 +35,35 @@ public class ClientListener extends Thread {
                     if (usernameReceiving.equals(Client.username)) {
                         // send "SUCCESS"
                         out.println("SUCCESS");
-                        
+
                         // get the username of who sent the message
                         String usernameSending = in.nextLine();
 
                         // get the message
                         String message = in.nextLine();
 
-                        // add the message to the list of private messages
-                        Client.userPrivateMessages.add(message);
-                        Client.userPrivateMessagesUsernameReceiving.add(usernameReceiving);
-                        Client.userPrivateMessagesUsernameSending.add(usernameSending);
+                        // if message is more than 140 characters
+                        if (message.length() > 140) {
+                            // send "FAILURE"
+                            out.println("FAILURE");
+                            out.println("Message was more than 140 characters");
+                        } else {
+                            // send "SUCCESS"
+                            out.println("SUCCESS");
 
+                            // add the message to the list of private messages
+                            Client.userPrivateMessages.add(message);
+                            Client.userPrivateMessagesUsernameReceiving.add(usernameReceiving);
+                            Client.userPrivateMessagesUsernameSending.add(usernameSending);
+                        }
                         //update the private message window
                         MainPage.updateUserPrivateMessages();
-
-                        //send "SUCCESS" to the server
-                        out.println("SUCCESS");
                     } else {
                         //send "FAILURE" to the server
                         out.println("FAILURE");
 
                         // send the error message that we are not logged in
-                        out.println(Client.username + " is not logged in");
+                        out.println(usernameReceiving + " is not logged in");
                     }
                 } // if the Client receives a message from the server as "SENDMESSAGE"
                 else if (line.equals("SENDMESSAGE")) {

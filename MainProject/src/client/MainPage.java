@@ -828,63 +828,72 @@ public class MainPage extends javax.swing.JFrame {
         // Get the message we want to send from the sendPrivateMessageTextArea and store it in a variable
         String message = sendPrivateMessageTextArea.getText();
 
-        // Convert any newlines to a space
+        // Convert any newlines and tabs to a space
+        message = message.replace("\t", " ");
         message = message.replace("\n", " ");
 
-        // Check if we have entered a message and have a user and ip address to send it to
-        if (message != null && Client.userUsername != null && Client.userIPAddress != null) {
-            try (Socket connector = new Socket(Client.userIPAddress, 2002)) {
-                InputStream inStream = connector.getInputStream();
-                OutputStream outStream = connector.getOutputStream();
+        // if message is more than 140 characters, then popup an error message
+        if (message.length() > 140) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Message is too long");
+        } else {
+            // Check if we have entered a message and have a user and ip address to send it to
+            if (message != null && Client.userUsername != null && Client.userIPAddress != null) {
+                try (Socket connector = new Socket(Client.userIPAddress, 2002)) {
+                    InputStream inStream = connector.getInputStream();
+                    OutputStream outStream = connector.getOutputStream();
 
-                try (Scanner in = new Scanner(inStream)) {
-                    PrintWriter out = new PrintWriter(new OutputStreamWriter(outStream), true);
+                    try (Scanner in = new Scanner(inStream)) {
+                        PrintWriter out = new PrintWriter(new OutputStreamWriter(outStream), true);
 
-                    // Send "SENDPRIVATEMESSAGE" to other client
-                    out.println("SENDPRIVATEMESSAGE");
-                    
-                    // Send the username of the user we want to send the message to
-                    out.println(Client.userUsername);
-
-                    // If the response is "SUCCESS", then send our username and message to the other client
-                    if (in.nextLine().equals("SUCCESS")) {
-                        // Send our username to other client
-                        out.println(Client.username);
+                        // Send "SENDPRIVATEMESSAGE" to other client
+                        out.println("SENDPRIVATEMESSAGE");
                         
-                        // Send message to other client
-                        out.println(message);
-                        
+                        // Send the username of the user we want to send the message to
+                        out.println(Client.userUsername);
+
                         // Receive response from other client
                         String response = in.nextLine();
 
-                        // If response is "success", then display a popup message saying the message was sent
+                        // If the response is "SUCCESS", then send our username and message to the other client
                         if (response.equals("SUCCESS")) {
-                            // Display a popup message saying the message was sent
-                            javax.swing.JOptionPane.showMessageDialog(this, "Message sent");
-                            // Add the message to the list of private messages we have sent
-                            Client.userPrivateMessages.add(message);
-                            Client.userPrivateMessagesUsernameReceiving.add(Client.userUsername);
-                            Client.userPrivateMessagesUsernameSending.add(Client.username);
-                            // Update the list of private messages we have
-                            updateUserPrivateMessages();
-                        } if (response.equals("FAILURE")) {
+                            // Send our username to other client
+                            out.println(Client.username);
+                            
+                            // Send message to other client
+                            out.println(message);
+                            
+                            // Receive response from other client
+                            response = in.nextLine();
+
+                            // If response is "success", then display a popup message saying the message was sent
+                            if (response.equals("SUCCESS")) {
+                                // Display a popup message saying the message was sent
+                                javax.swing.JOptionPane.showMessageDialog(this, "Message sent");
+                                // Add the message to the list of private messages we have sent
+                                Client.userPrivateMessages.add(message);
+                                Client.userPrivateMessagesUsernameReceiving.add(Client.userUsername);
+                                Client.userPrivateMessagesUsernameSending.add(Client.username);
+                                // Update the list of private messages we have
+                                updateUserPrivateMessages();
+                            } if (response.equals("FAILURE")) {
+                                // Get next line from server and display it as a popup error
+                                String error = in.nextLine();
+                                javax.swing.JOptionPane.showMessageDialog(this, error);
+                            }
+                        } if (in.nextLine().equals("FAILURE")) {
                             // Get next line from server and display it as a popup error
                             String error = in.nextLine();
                             javax.swing.JOptionPane.showMessageDialog(this, error);
                         }
-                    } if (in.nextLine().equals("FAILURE")) {
-                        // Get next line from server and display it as a popup error
-                        String error = in.nextLine();
-                        javax.swing.JOptionPane.showMessageDialog(this, error);
+                        
                     }
-                    
+                } catch (IOException ex) {
+                    System.out.println(ex);
                 }
-            } catch (IOException ex) {
-                System.out.println(ex);
+            } else {
+                // Popup error message
+                javax.swing.JOptionPane.showMessageDialog(this, "Please enter a message to send");
             }
-        } else {
-            // Popup error message
-            javax.swing.JOptionPane.showMessageDialog(this, "Please enter a message to send");
         }
     }//GEN-LAST:event_sendPrivateMessageButtonActionPerformed
 
