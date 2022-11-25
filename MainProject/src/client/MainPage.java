@@ -524,6 +524,7 @@ public class MainPage extends javax.swing.JFrame {
                 System.out.println(ex);
             }
         }
+        Client.username = null;
         // Open up the Startup window
         StartupWindow startup = new StartupWindow();
         startup.setVisible(true);
