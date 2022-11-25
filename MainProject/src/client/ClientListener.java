@@ -33,6 +33,9 @@ public class ClientListener extends Thread {
 
                     // if the usernameReceiving is the same as our username
                     if (usernameReceiving.equals(Client.username)) {
+                        // send "SUCCESS"
+                        out.println("SUCCESS");
+                        
                         // get the username of who sent the message
                         String usernameSending = in.nextLine();
 
