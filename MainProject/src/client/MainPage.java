@@ -880,7 +880,7 @@ public class MainPage extends javax.swing.JFrame {
                                 String error = in.nextLine();
                                 javax.swing.JOptionPane.showMessageDialog(this, error);
                             }
-                        } if (in.nextLine().equals("FAILURE")) {
+                        } if (response.equals("FAILURE")) {
                             // Get next line from server and display it as a popup error
                             String error = in.nextLine();
                             javax.swing.JOptionPane.showMessageDialog(this, error);
