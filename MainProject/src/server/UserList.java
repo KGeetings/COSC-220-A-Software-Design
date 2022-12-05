@@ -166,4 +166,9 @@ public class UserList {
         userList.get(username).setPassword(password);
     }
 
+    public char[] getNumberOfUsers() {
+        //return the number of users
+        return Integer.toString(userList.size()).toCharArray();
+    }
+
 }

@@ -50,8 +50,8 @@ public class MainPage extends javax.swing.JFrame {
         followThemButton = new javax.swing.JButton();
         unfollowThemLabel = new javax.swing.JLabel();
         usernameUnfollowThemLabel = new javax.swing.JLabel();
-        unfollowThemTextField = new javax.swing.JTextField();
         unfollowThemButton = new javax.swing.JButton();
+        unfollowThemComboBox = new javax.swing.JComboBox<>();
         homePanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         homeFeedTextArea = new javax.swing.JTextArea();
@@ -140,6 +140,8 @@ public class MainPage extends javax.swing.JFrame {
             }
         });
 
+        unfollowThemComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout myProfilePanelLayout = new javax.swing.GroupLayout(myProfilePanel);
         myProfilePanel.setLayout(myProfilePanelLayout);
         myProfilePanelLayout.setHorizontalGroup(
@@ -166,19 +168,18 @@ public class MainPage extends javax.swing.JFrame {
                                         .addComponent(usernameFollowThemLabel)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(followThemTextField))
-                                    .addGroup(myProfilePanelLayout.createSequentialGroup()
-                                        .addGroup(myProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(unfollowThemLabel)
-                                            .addGroup(myProfilePanelLayout.createSequentialGroup()
-                                                .addComponent(usernameUnfollowThemLabel)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(unfollowThemTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addGap(0, 0, Short.MAX_VALUE))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, myProfilePanelLayout.createSequentialGroup()
                                         .addGap(0, 0, Short.MAX_VALUE)
                                         .addGroup(myProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(followThemButton, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(unfollowThemButton, javax.swing.GroupLayout.Alignment.TRAILING)))))))
+                                            .addComponent(unfollowThemButton, javax.swing.GroupLayout.Alignment.TRAILING)))
+                                    .addGroup(myProfilePanelLayout.createSequentialGroup()
+                                        .addComponent(unfollowThemLabel)
+                                        .addGap(0, 92, Short.MAX_VALUE))
+                                    .addGroup(myProfilePanelLayout.createSequentialGroup()
+                                        .addComponent(usernameUnfollowThemLabel)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(unfollowThemComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, myProfilePanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(logOutButton)))
@@ -208,7 +209,7 @@ public class MainPage extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(myProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(usernameUnfollowThemLabel)
-                            .addComponent(unfollowThemTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(unfollowThemComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(unfollowThemButton)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
@@ -620,11 +621,15 @@ public class MainPage extends javax.swing.JFrame {
         } catch (IOException ex) {
             System.out.println(ex);
         }
+
+        // set the text of the unfollowThemComboBox to the list of users we are following (grabbed from the peopleFollowingTextArea), set the first item to null
+        unfollowThemComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(peopleFollowingTextArea.getText().split("\n")));
+        unfollowThemComboBox.setSelectedIndex(-1);
     }
 
     private void unfollowThemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_unfollowThemButtonActionPerformed
-        // Get the username of the user we want to unfollow from the text field and store it in a variable
-        String username = unfollowThemTextField.getText();
+        // Get the username of the user we want to unfollow from the combo box and store it in a variable
+        String username = (String) unfollowThemComboBox.getSelectedItem();
         
         // Check if we have selected a user
         if (username != null) {
@@ -1092,8 +1097,8 @@ public class MainPage extends javax.swing.JFrame {
     private javax.swing.JLabel sendPrivateMessageLabel;
     private javax.swing.JTextArea sendPrivateMessageTextArea;
     private javax.swing.JButton unfollowThemButton;
+    private javax.swing.JComboBox<String> unfollowThemComboBox;
     private javax.swing.JLabel unfollowThemLabel;
-    private javax.swing.JTextField unfollowThemTextField;
     private javax.swing.JLabel usernameFollowThemLabel;
     private javax.swing.JTextField usernameToMessageTextField;
     private javax.swing.JLabel usernameUnfollowThemLabel;

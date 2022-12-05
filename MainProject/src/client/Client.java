@@ -18,7 +18,7 @@ public class Client {
      */
 
     //keep server's IP address
-    public static String serverIP = "10.21.60.83";
+    public static String serverIP = "localhost";
 
     //keep track of the user's username
     public static String username;
@@ -38,6 +38,10 @@ public class Client {
 
     //keep new messages
     public static String newMessages = "";
+
+    //keep track of the registered users and total messages sent if we are the admin
+    public static int numUsers = 0;
+    public static int numMessages = 0;
 
     public static void main(String[] args) throws UnknownHostException {
         // Run StartupWindow.java form

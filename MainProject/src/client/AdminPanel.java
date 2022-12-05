@@ -37,9 +37,6 @@ public class AdminPanel extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         numberOfRegisteredUsersLabel = new javax.swing.JLabel();
         numberOfMessagesSentLabel = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jLabel6 = new javax.swing.JLabel();
         shutdownServerButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
@@ -77,19 +74,14 @@ public class AdminPanel extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setText("Stats for nerds:");
 
-        jLabel2.setText("# of Register Users:");
+        jLabel2.setText("# of Registered Users:");
 
         jLabel3.setText("# of Messages Sent:");
 
-        numberOfRegisteredUsersLabel.setText("null");
+        // set number of registered users to the number of users in Client.numUsers
+        numberOfRegisteredUsersLabel.setText(Integer.toString(Client.numUsers));
 
-        numberOfMessagesSentLabel.setText("null");
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
-
-        jLabel6.setText("Other day's message's sent count:");
+        numberOfMessagesSentLabel.setText(Integer.toString(Client.numMessages));
 
         shutdownServerButton.setText("Shutdown Server");
         shutdownServerButton.addActionListener(new java.awt.event.ActionListener() {
@@ -116,13 +108,10 @@ public class AdminPanel extends javax.swing.JFrame {
                         .addComponent(numberOfMessagesSentLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel6))
-                .addGap(0, 352, Short.MAX_VALUE))
+                .addComponent(jLabel1)
+                .addGap(0, 411, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(shutdownServerButton))
         );
         jPanel1Layout.setVerticalGroup(
@@ -138,13 +127,10 @@ public class AdminPanel extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(numberOfMessagesSentLabel))
-                .addGap(32, 32, 32)
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(54, 54, 54)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(0, 343, Short.MAX_VALUE)
                         .addComponent(logOutButton))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(shutdownServerButton)
@@ -620,17 +606,14 @@ public class AdminPanel extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JButton logOutButton;
     private javax.swing.JLabel numberOfMessagesSentLabel;
     private javax.swing.JLabel numberOfRegisteredUsersLabel;

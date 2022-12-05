@@ -111,4 +111,9 @@ public class MessageList {
         }
     }
 
+    public static char[] getNumberOfMessages() {
+        //get the number of messages in the message list
+        return Integer.toString(messageList.size()).toCharArray();
+    }
+
 }

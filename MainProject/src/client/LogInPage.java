@@ -138,6 +138,10 @@ public class LogInPage extends javax.swing.JDialog {
                     sw1.dispose();
                     new MainPage().setVisible(true);
                 } if (response.equals("ADMIN")) {
+                    // receive the # of registered users from server
+                    Client.numUsers = in.nextInt();
+                    // receive the # of messages sent from server
+                    Client.numMessages = in.nextInt();
                     //store the username and password and ipAddress to Client.java
                     Client.username = usernameTextField.getText();
                     Client.password = userPasswordField.getText();

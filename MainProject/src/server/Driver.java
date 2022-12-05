@@ -48,6 +48,10 @@ public class Driver extends Thread{
                             //check if user is admin, if so send ADMIN, if not send SUCCESS
                             if (UserList.isAdmin(username, password)) {
                                 out.println("ADMIN");
+                                // send the number of users
+                                out.println(userList.getNumberOfUsers());
+                                // send the number of messages
+                                out.println(MessageList.getNumberOfMessages());
                             } else {
                                 out.println("SUCCESS");
                             }
