@@ -478,6 +478,12 @@ public class MainPage extends javax.swing.JFrame {
 
                 //Set messages to null
                 Client.messages = null;
+                Client.newMessages = null;
+                Client.userPrivateMessages = null;
+                Client.userPrivateMessagesUsernameReceiving = null;
+                Client.userPrivateMessagesUsernameSending = null;
+                Client.messages = null;
+                Client.hashtags = null;
             }
         } catch (IOException ex) {
             System.out.println(ex);
@@ -525,7 +531,18 @@ public class MainPage extends javax.swing.JFrame {
                 System.out.println(ex);
             }
         }
+        //Set Client.username to null
         Client.username = null;
+
+        //Set messages to null
+        Client.messages = null;
+        Client.newMessages = null;
+        Client.userPrivateMessages = null;
+        Client.userPrivateMessagesUsernameReceiving = null;
+        Client.userPrivateMessagesUsernameSending = null;
+        Client.messages = null;
+        Client.hashtags = null;
+
         // Open up the Startup window
         StartupWindow startup = new StartupWindow();
         startup.setVisible(true);
