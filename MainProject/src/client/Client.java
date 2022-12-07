@@ -18,7 +18,7 @@ public class Client {
      */
 
     //keep server's IP address
-    public static String serverIP = "localhost";
+    public static String serverIP = "10.22.4.11";
 
     //keep track of the user's username
     public static String username;
