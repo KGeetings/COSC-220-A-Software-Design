@@ -15,21 +15,13 @@ public class UserList {
     public boolean checkPassword(String username, String password) {
         //check if the password is correct
         //return true if the password is correct, false if not
-        if (userList.get(username).getPassword().equals(password)) {
-            return true;
-        } else {
-            return false;
-        }
+        return (userList.get(username).getPassword().equals(password));
     }
 
     public boolean checkLoggedIn(String username) {
         //check if the user is logged in
         //return true if the user is logged in, false if not
-        if (userList.get(username).getStatus()) {
-            return true;
-        } else {
-            return false;
-        }
+        return (userList.get(username).getStatus());
     }
 
     //register method

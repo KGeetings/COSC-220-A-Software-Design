@@ -107,11 +107,7 @@ public class User {
 
     // If username is "admin" and password is "admin", return true
     public Object getAdmin() {
-        if (username.equals("admin")) {
-            return "true";
-        } else {
-            return "false";
-        }
+        return (username.equals("admin"));
     }
 
     public String getNewFollowerOrUnfollower() {
