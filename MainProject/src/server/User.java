@@ -106,7 +106,7 @@ public class User {
     }
 
     // If username is "admin" and password is "admin", return true
-    public Object getAdmin() {
+    public boolean getAdmin() {
         return (username.equals("admin"));
     }
 

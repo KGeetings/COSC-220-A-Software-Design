@@ -473,21 +473,25 @@ public class MainPage extends javax.swing.JFrame {
                     String error = in.nextLine();
                     javax.swing.JOptionPane.showMessageDialog(this, error);
                 }
-                //Set Client.username to null
-                Client.username = null;
-
-                //Set messages to null
-                Client.messages = null;
-                Client.newMessages = null;
-                Client.userPrivateMessages = null;
-                Client.userPrivateMessagesUsernameReceiving = null;
-                Client.userPrivateMessagesUsernameSending = null;
-                Client.messages = null;
-                Client.hashtags = null;
+                
             }
         } catch (IOException ex) {
             System.out.println(ex);
         }
+        //Set Client login info to null
+        Client.username = null;
+        Client.password = null;
+        Client.ipAddress = null;
+
+        //Clear other info
+        Client.userIPAddress = null;
+        Client.userUsername = null;
+        Client.messages.clear();
+        Client.newMessages = "";
+        Client.userPrivateMessages.clear();
+        Client.userPrivateMessagesUsernameReceiving.clear();
+        Client.userPrivateMessagesUsernameSending.clear();
+        Client.hashtags.clear();
     }//GEN-LAST:event_logOutButtonActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
@@ -531,17 +535,20 @@ public class MainPage extends javax.swing.JFrame {
                 System.out.println(ex);
             }
         }
-        //Set Client.username to null
+        //Set Client login info to null
         Client.username = null;
+        Client.password = null;
+        Client.ipAddress = null;
 
-        //Set messages to null
-        Client.messages = null;
-        Client.newMessages = null;
-        Client.userPrivateMessages = null;
-        Client.userPrivateMessagesUsernameReceiving = null;
-        Client.userPrivateMessagesUsernameSending = null;
-        Client.messages = null;
-        Client.hashtags = null;
+        //Clear other info
+        Client.userIPAddress = null;
+        Client.userUsername = null;
+        Client.messages.clear();
+        Client.newMessages = "";
+        Client.userPrivateMessages.clear();
+        Client.userPrivateMessagesUsernameReceiving.clear();
+        Client.userPrivateMessagesUsernameSending.clear();
+        Client.hashtags.clear();
 
         // Open up the Startup window
         StartupWindow startup = new StartupWindow();

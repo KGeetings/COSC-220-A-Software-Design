@@ -131,11 +131,7 @@ public class UserList {
 
     //check if user is an admin
     public static boolean isAdmin(String username, String password) {
-        if (userList.get(username).getPassword().equals(password) && userList.get(username).getAdmin().equals("true")) {
-            return true;
-        } else {
-            return false;
-        }
+        return (userList.get(username).getPassword().equals(password) && userList.get(username).getAdmin());
     }
 
     //get user's new follower or unfollower notifications
