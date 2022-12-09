@@ -5,7 +5,7 @@ import java.net.UnknownHostException;
 
 public class Server{
     //create a UserList object
-    public static UserList userList = new UserList();
+    private static UserList userList = new UserList();
 
     public static void main(String[] args) throws UnknownHostException {
         //create an admin user, with username "admin" and pass "admin"

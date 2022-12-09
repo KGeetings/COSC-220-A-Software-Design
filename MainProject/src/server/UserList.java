@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class UserList {
     //UserList object stores a list of users and their information
-    static HashMap <String, User> userList = new HashMap <String, User> ();
+    private static HashMap <String, User> userList = new HashMap <String, User> ();
 
     public boolean userExists(String username) {
         //check if the user exists

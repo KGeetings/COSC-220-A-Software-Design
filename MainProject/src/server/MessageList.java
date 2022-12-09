@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class MessageList {
     //MessageList object stores a list of messages and their information
 
-    static ArrayList <Message> messageList = new ArrayList <Message> ();
+    private static ArrayList <Message> messageList = new ArrayList <Message> ();
 
     /* public boolean messageExists(int idNumber) {
         //check if the message exists
